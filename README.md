@@ -152,8 +152,8 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Contact
-- Peter Hymøller - peter@mail.mail
-  - Noget her
+- Peter Hymøller - peterhym21@gmail.com
+  - [![Twitter][twitter-shield]][https://twitter.com/peter_hym]
 - Nicolai Heuck - nicolaiheuck@gmail.com
 - Jan Andreasen - jan@tved.it
   - [![Twitter][twitter-shield]][twitter-url]
