@@ -6,12 +6,23 @@
 #include <Adafruit_SSD1306.h>           // OLED
 #include "Adafruit_MQTT.h"              // MQTT
 #include "Adafruit_MQTT_Client.h"       // MQTT
+#include <Servo.h>                      // Run servos
 
 
 
 /************************* Var & const *********************************/
 String messageToDisplay;    // Message for OLED
+Servo doorServo;
 long delayOLED;
+long delayPing;
+const int doorClosed = 0;
+const int doorOpen = 90;
+
+/************************* Door opener (ping-dims) *********************************/
+#define TRIGGER_PING 2           // TODO er den pin overhovedet ledig??
+#define ECHO_PING 3              // TODO er den pin overhovedet ledig??
+#define PULSE_WAIT 200000
+#define DOORSERVO 4              // TODO er den pin overhovedet ledig??
 
 /************************* Brooker Setup *********************************/
 #define MQTT_SERVER      "62.66.208.26"
@@ -45,6 +56,8 @@ Adafruit_MQTT_Subscribe HMI = Adafruit_MQTT_Subscribe(&mqtt, "home/input/#");
 void initRGB();                 // Builtin RGB
 void initDisplay();             // OLED
 void initWireless();            // Connects wifi
+void initPing();
+void initServo();
 
 void printOLED(int x, int y, String text, int textSize = 1);
 void updateOLED(int interval);
@@ -54,6 +67,8 @@ void mqttSub();
 void mqttPub();
 
 void getTime(int interval = 36000000); // 1 hour
+void doPing(int interval);
+void actionDoor(bool open = false);
 
 void flashWhite(int interval);
 void ledRed();

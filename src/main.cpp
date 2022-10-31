@@ -40,6 +40,17 @@ void initWireless()
     delay(1000);
 }
 
+void initPing()
+{
+    pinMode(TRIGGER_PING, OUTPUT);
+    pinMode(ECHO_PING, INPUT);
+}
+
+void initServo()
+{
+    doorServo.attach(DOORSERVO);
+}
+
 void setup()
 {
     Serial.begin(9600);
@@ -54,6 +65,8 @@ void setup()
     mqtt.subscribe(&climate);
     mqtt.subscribe(&alarm);
     mqtt.subscribe(&readLog);
+    initPing();
+    initServo();
 }
 
 #pragma endregion
@@ -195,6 +208,33 @@ void getTime(int interval)
         delayTime = millis();
         timeClient.update();
     }
+}
+
+void pingDoors(int interval)
+{
+    long duration;
+    int distance;
+
+    if ((millis() - delayPing) > interval)
+    {
+        digitalWrite(TRIGGER_PING, false);
+        delayMicroseconds(2);
+        digitalWrite(TRIGGER_PING, true);
+        delayMicroseconds(10);
+        digitalWrite(TRIGGER_PING, false);
+
+        duration = pulseIn(ECHO_PING, true, PULSE_WAIT);
+        distance = duration/58;
+        if (distance < 15)  { actionDoor(true); }
+        else if (distance > 30) { actionDoor(); }
+        delayPing = millis();
+    }
+}
+
+void actionDoor(bool open)
+{
+    if (open) { doorServo.write(doorOpen); }
+    else { doorServo.write(doorClosed); }
 }
 
 #pragma endregion
