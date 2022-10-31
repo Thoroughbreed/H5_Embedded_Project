@@ -32,6 +32,5 @@
 *.app
 
 # Platform IO
-.pio/build
-.pio/libdeps
+.pio
 .vscode
