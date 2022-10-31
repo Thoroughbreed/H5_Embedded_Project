@@ -1,10 +1,10 @@
-#include <Arduino.h>
+#include "Alarm/alarm.h"
 #include <Adafruit_GFX.h>
 
 void setup() {
-  // put your setup code here, to run once:
+  setupAlarm();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  loopAlarm();
 }
