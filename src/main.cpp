@@ -13,7 +13,7 @@ void initDisplay()
 {
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
     {
-        Serial.println(F("OLED allocation failed"))
+        Serial.println(F("OLED allocation failed"));
         for(;;);
     }
 }
@@ -53,7 +53,7 @@ void setup()
     getTime(0);
     mqtt.subscribe(&climate);
     mqtt.subscribe(&alarm);
-    mqtt.subscribe(&log);
+    mqtt.subscribe(&readLog);
 }
 
 #pragma endregion
@@ -157,25 +157,105 @@ void mqttSub()
             Serial.println(messageToDisplay);
             flashWhite(75);
         }
-        if (subscription == &log)
+        if (subscription == &readLog)
         {
             // TODO Do something!
             // Vis log
-            // messageToDisplay = (char *)text.lastread;
-            //        Serial.println(messageToDisplay);
-            //        flashWhite(75);
+            messageToDisplay = (char *)readLog.lastread;
+            Serial.println(messageToDisplay);
+            flashWhite(75);
         }
         if (subscription == &HMI)
         {
             // TODO Do something!
             // Gør noget!
+            messageToDisplay = (char *)HMI.lastread;
+            Serial.println(messageToDisplay);
+            flashWhite(75);
         }
+    }
+}
+
+void mqttPub(const char* payload, Adafruit_MQTT_Publish topic)
+{
+    if (!topic.publish(payload))
+    {
+        // Todo some kind of error??
     }
 }
 
 #pragma endregion
 
+#pragma region Misc functions
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void getTime(int interval)
+{
+    if ((millis() - delayTime) > interval)
+    {
+        delayTime = millis();
+        timeClient.update();
+    }
+}
+
+#pragma endregion
+
+#pragma region LED Control
+
+void flashWhite(int interval)
+{
+    WiFiDrv::digitalWrite(25, 1);   //GREEN
+    WiFiDrv::digitalWrite(26, 1);   //RED
+    WiFiDrv::digitalWrite(27, 1);   //BLUE
+    delay(interval);
+    WiFiDrv::digitalWrite(25, 0);   //GREEN
+    WiFiDrv::digitalWrite(26, 0);   //RED
+    WiFiDrv::digitalWrite(27, 0);   //BLUE
+    delay(interval);
+    WiFiDrv::digitalWrite(25, 1);   //GREEN
+    WiFiDrv::digitalWrite(26, 1);   //RED
+    WiFiDrv::digitalWrite(27, 1);   //BLUE
+    delay(interval);
+    WiFiDrv::digitalWrite(25, 0);   //GREEN
+    WiFiDrv::digitalWrite(26, 0);   //RED
+    WiFiDrv::digitalWrite(27, 0);   //BLUE
+    delay(interval);
+    WiFiDrv::digitalWrite(25, 1);   //GREEN
+    WiFiDrv::digitalWrite(26, 1);   //RED
+    WiFiDrv::digitalWrite(27, 1);   //BLUE
+    delay(interval);
+    WiFiDrv::digitalWrite(25, 0);   //GREEN
+    WiFiDrv::digitalWrite(26, 0);   //RED
+    WiFiDrv::digitalWrite(27, 0);   //BLUE
+    delay(interval);
+}
+
+void ledRed()
+{
+    WiFiDrv::digitalWrite(25, 0);   //GREEN
+    WiFiDrv::digitalWrite(26, 1);   //RED
+    WiFiDrv::digitalWrite(27, 0);   //BLUE
+}
+
+void ledGreen()
+{
+    WiFiDrv::digitalWrite(25, 1);   //GREEN
+    WiFiDrv::digitalWrite(26, 0);   //RED
+    WiFiDrv::digitalWrite(27, 0);   //BLUE
+}
+
+void ledBlue()
+{
+    WiFiDrv::digitalWrite(25, 0);   //GREEN
+    WiFiDrv::digitalWrite(26, 0);   //RED
+    WiFiDrv::digitalWrite(27, 1);   //BLUE
+}
+
+#pragma endregion
+
+void loop()
+{
+    updateOLED(500);
+    getTime(); // Default is 1 time
+    mqttConnect();
+    mqttSub();
 }

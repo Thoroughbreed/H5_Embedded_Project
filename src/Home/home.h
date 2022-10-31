@@ -1,6 +1,5 @@
 #include "../Shared/shared.h"           // Shared
 #include <SPI.h>                        // SPI
-#include <WiFiNINA.h>                   // WiFi
 #include <utility/wifi_drv.h>           // RGB LED
 #include <Wire.h>                       // I2C
 #include <Adafruit_GFX.h>               // OLED
@@ -13,7 +12,6 @@
 /************************* Var & const *********************************/
 String messageToDisplay;    // Message for OLED
 long delayOLED;
-WiFiClient client;          // Wireless client
 
 /************************* Brooker Setup *********************************/
 #define MQTT_SERVER      "62.66.208.26"
@@ -35,10 +33,29 @@ Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_SERVERPORT, MQTT_CLIENTID, 
 // PUB
 Adafruit_MQTT_Publish alarmStatus = Adafruit_MQTT_Publish(&mqtt, "home/alarm/status");
 Adafruit_MQTT_Publish alarmAlarm = Adafruit_MQTT_Publish(&mqtt, "home/alarm/alarm");
-Adafruit_MQTT_Publish log = Adafruit_MQTT_Publish(&mqtt, "home/log");
+Adafruit_MQTT_Publish pubLog = Adafruit_MQTT_Publish(&mqtt, "home/log");
 
 // SUB
 Adafruit_MQTT_Subscribe climate = Adafruit_MQTT_Subscribe(&mqtt, "home/climate/#");
 Adafruit_MQTT_Subscribe alarm = Adafruit_MQTT_Subscribe(&mqtt, "home/alarm/#");
-Adafruit_MQTT_Subscribe log = Adafruit_MQTT_Subscribe(&mqtt, "home/log/#");
+Adafruit_MQTT_Subscribe readLog = Adafruit_MQTT_Subscribe(&mqtt, "home/log/#");
 Adafruit_MQTT_Subscribe HMI = Adafruit_MQTT_Subscribe(&mqtt, "home/input/#");
+
+/************************* Func prototyping *********************************/
+void initRGB();                 // Builtin RGB
+void initDisplay();             // OLED
+void initWireless();            // Connects wifi
+
+void printOLED(int x, int y, String text, int textSize = 1);
+void updateOLED(int interval);
+
+void mqttConnect();
+void mqttSub();
+void mqttPub();
+
+void getTime(int interval = 36000000); // 1 hour
+
+void flashWhite(int interval);
+void ledRed();
+void ledGreen();
+void ledBlue();
