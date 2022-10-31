@@ -7,6 +7,7 @@
 #include "Adafruit_MQTT.h"              // MQTT
 #include "Adafruit_MQTT_Client.h"       // MQTT
 #include <Servo.h>                      // Run servos
+#include "keypad.h"                     // Keypad
 
 
 

@@ -292,10 +292,75 @@ void ledBlue()
 
 #pragma endregion
 
+#pragma region Keypad and entry
+
+void checkPassword(char key)
+{
+    if (pwdCount <= 3)
+    {
+        pwdTest[pwdCount] = key;
+        pwdCount++;
+    }
+    else
+    {
+        pwdCount = 0;
+    }
+}
+
+void keyIn()
+{
+    char key = keypad.getKey();
+    switch (key)
+    {
+        case 'A':
+            // TODO
+            break;
+        case 'B':
+            // TODO
+            break;
+        case 'C':
+            // TODO
+            break;
+        case 'D':
+            // TODO
+            break;
+        case '#':
+            pwdCount = 0;
+            if (comparePassword(pwdTest))
+            {
+                // TODO Unlock
+            }
+            else
+            {
+                // TODO Lock
+            }
+            break;
+        case '*':
+            // TODO
+            break;
+        default:
+            checkPassword(key);
+            break;
+    }
+}
+
+bool comparePassword(char pw[])
+{
+    if (pwdTest[0] == pwd[0] && pwdTest[1] == pwd[1] && pwdTest[2] == pwd[2] && pwdTest[3] == pwd[3])
+    {
+        pwdTest[0] = 0;
+        return true;
+    }
+    return false;
+}
+
+#pragma endregion
+
 void loop()
 {
     updateOLED(500);
     getTime(); // Default is 1 time
     mqttConnect();
     mqttSub();
+    keyIn();
 }
