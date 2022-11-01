@@ -1,25 +1,22 @@
 #include "climate.h"
 
-char ssid[] = SECRET_SSID;
-char pass[] = SECRET_PASS;
-
-WiFiClient net;
 MQTTClient client;
 DHT dht(DHTPIN, DHTTYPE);
 Servo myservo;
 
 unsigned long lastMillis = 0;
 
-
+extern WiFiClient wifiClient;
 
 void setupClimate()
 {
     WiFiDrv::pinMode(25, OUTPUT); //Green
     WiFiDrv::pinMode(26, OUTPUT); //Red
     WiFiDrv::pinMode(27, OUTPUT); //Blue
-    WiFi.begin(ssid, pass);
+    
+    setupWiFi();
 
-    client.begin("62.66.208.26", net);
+    client.begin("62.66.208.26", wifiClient);
     client.onMessage(messageReceived);
 
     connect();
@@ -61,14 +58,6 @@ void loopClimate()
 
 
 void connect() {
-  Serial.print("checking wifi...");
-  while (WiFi.status() != WL_CONNECTED) {
-    LedRed();
-    Serial.print(".");
-    delay(1000);
-  }
-
-  Serial.print("\nconnecting...");
   while (!client.connect("House_climate", "ardui", "s1hif-xp!sT-qCuwu")) {
     LedBlue();
     Serial.print(".");
