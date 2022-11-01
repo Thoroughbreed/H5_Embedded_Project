@@ -1,7 +1,6 @@
-#include <Arduino.h>
 #include <WiFiNINA.h>
-#include <NTPClient.h>
 #include <WiFiUdp.h>
+#include "../../.pio/libdeps/mkrwifi1010/NTPClient/NTPClient.h"
 
 
 /************************* WiFi Access Point *********************************/
@@ -14,4 +13,4 @@ NTPClient timeClient(ntpUDP);
 
 /************************* Var & const *********************************/
 long delayTime;
-// WiFiClient client;          // Wireless client
+String messageToDisplay;    // Message for OLED

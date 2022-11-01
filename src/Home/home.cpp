@@ -55,6 +55,11 @@ void initServo()
     doorServo.attach(DOORSERVO);
 }
 
+void initmqttSub(String topic)
+{
+    mqttClient.subscribe(topic);
+}
+
 void setupHome()
 {
     Serial.begin(9600);
@@ -66,9 +71,8 @@ void setupHome()
     timeClient.begin();
     initWireless();
     getTime(0);
-    mqtt.subscribe(&climate);
-    mqtt.subscribe(&alarm);
-    mqtt.subscribe(&readLog);
+    setupMQTT(CLIENTID, onMessageReceived);
+    initmqttSub(ALARM_TOP);
     initPing();
     initServo();
 }
@@ -99,107 +103,112 @@ void updateOLED(int interval)
 
 #pragma endregion
 
-#pragma region MQTT pub/sub
+#pragma region MQTT
 
-void mqttConnect()
+void onMessageReceived(String& topic, String& payload)
 {
-    int8_t ret;
-
-    if (mqtt.connected())
+    if (topic == ALARM_TOP)
     {
-        ledGreen();
-        return;
+        // TODO Do something!
+        // Alarm halløj
+        messageToDisplay = payload;
+        Serial.println(messageToDisplay);
+        flashWhite(75);
     }
-
-    ledBlue();
-    display.clearDisplay();
-    printOLED(0, 0, "Conecting to MQTT ...");
-    printOLED(0, 30, timeClient.getFormattedTime());
-    display.display();
-
-    uint8_t retries = 5;
-    while ((ret = mqtt.connect()) != 0)
+    if (topic == CLIMATE_SUB)
     {
-        display.clearDisplay();
-        printOLED(0, 0, "Connecting to MQTT ...");
-        printOLED(0, 10, "Retying MQTT conn.");
-        printOLED(0, 30, timeClient.getFormattedTime());
-        display.display();
-        mqtt.disconnect();
-        delay(5000);
-        retries--;
-        if (retries == 0)
-        {
-            while(true)
-            {
-                display.clearDisplay();
-                printOLED(0, 0, "Conecting to MQTT ...");
-                printOLED(0, 10, "Retrying MQTT conn.");
-                printOLED(0, 20, "MQTT conn. dead");
-                printOLED(0, 30, timeClient.getFormattedTime());
-                printOLED(0, 40, "Check settings!");
-                display.display();
-                delay(999);
-            }
-        }
+        // TODO Do something!
+        // Klima halløj
+        messageToDisplay = payload;
+        Serial.println(messageToDisplay);
+        flashWhite(75);
     }
-    display.clearDisplay();
-    printOLED(0, 0, "Conecting to MQTT ...");
-    printOLED(0, 10, "MQTT connected!");
-    display.display();
-    Serial.println("MQTT Connected!");
-    ledGreen();
-    delay(1234);
-}
-
-void mqttSub()
-{
-    Adafruit_MQTT_Subscribe *subscription;
-    while ((subscription = mqtt.readSubscription()))
+    if (topic == LOG)
     {
-
-        if (subscription == &alarm)
-        {
-            // TODO Do something!
-            // Alarm halløj
-            messageToDisplay = (char *)alarm.lastread;
-            Serial.println(messageToDisplay);
-            flashWhite(75);
-        }
-        if (subscription == &climate)
-        {
-            // TODO Do something!
-            // Klima halløj
-            messageToDisplay = (char *)climate.lastread;
-            Serial.println(messageToDisplay);
-            flashWhite(75);
-        }
-        if (subscription == &readLog)
-        {
-            // TODO Do something!
-            // Vis log
-            messageToDisplay = (char *)readLog.lastread;
-            Serial.println(messageToDisplay);
-            flashWhite(75);
-        }
-        if (subscription == &HMI)
-        {
-            // TODO Do something!
-            // Gør noget!
-            messageToDisplay = (char *)HMI.lastread;
-            Serial.println(messageToDisplay);
-            flashWhite(75);
-        }
+        // TODO Do something!
+        // Vis log
+        messageToDisplay = payload;
+        Serial.println(messageToDisplay);
+        flashWhite(75);
+    }
+    if (topic == HMI)
+    {
+        // TODO Do something!
+        // Gør noget!
+        messageToDisplay = payload;
+        Serial.println(messageToDisplay);
+        flashWhite(75);
     }
 }
 
-void mqttPub(const char* payload, Adafruit_MQTT_Publish topic)
-{
-    if (!topic.publish(payload))
-    {
-        // Todo some kind of error??
-    }
-}
+//void mqttConnect()
+//{
+//    int8_t ret;
+//
+//    if (mqtt.connected())
+//    {
+//        ledGreen();
+//        return;
+//    }
+//
+//    ledBlue();
+//    display.clearDisplay();
+//    printOLED(0, 0, "Conecting to MQTT ...");
+//    printOLED(0, 30, timeClient.getFormattedTime());
+//    display.display();
+//
+//    uint8_t retries = 5;
+//    while ((ret = mqtt.connect()) != 0)
+//    {
+//        display.clearDisplay();
+//        printOLED(0, 0, "Connecting to MQTT ...");
+//        printOLED(0, 10, "Retying MQTT conn.");
+//        printOLED(0, 30, timeClient.getFormattedTime());
+//        display.display();
+//        mqtt.disconnect();
+//        delay(5000);
+//        retries--;
+//        if (retries == 0)
+//        {
+//            while(true)
+//            {
+//                display.clearDisplay();
+//                printOLED(0, 0, "Conecting to MQTT ...");
+//                printOLED(0, 10, "Retrying MQTT conn.");
+//                printOLED(0, 20, "MQTT conn. dead");
+//                printOLED(0, 30, timeClient.getFormattedTime());
+//                printOLED(0, 40, "Check settings!");
+//                display.display();
+//                delay(999);
+//            }
+//        }
+//    }
+//    display.clearDisplay();
+//    printOLED(0, 0, "Conecting to MQTT ...");
+//    printOLED(0, 10, "MQTT connected!");
+//    display.display();
+//    Serial.println("MQTT Connected!");
+//    ledGreen();
+//    delay(1234);
+//}
+//
+//void mqttSub()
+//{
+//    Adafruit_MQTT_Subscribe *subscription;
+//    while ((subscription = mqtt.readSubscription()))
+//    {
+//
+//
+//    }
+//}
+//
+//void mqttPub(const char* payload, Adafruit_MQTT_Publish topic)
+//{
+//    if (!topic.publish(payload))
+//    {
+//        // Todo some kind of error??
+//    }
+//}
 
 #pragma endregion
 
