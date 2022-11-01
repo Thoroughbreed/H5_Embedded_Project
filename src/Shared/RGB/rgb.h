@@ -1,3 +1,6 @@
+#ifndef H5_EMBEDDED_PROJECT_RGB_H
+#define H5_EMBEDDED_PROJECT_RGB_H
+
 #include <utility/wifi_drv.h>
 
 #define RGB_GREEN_PIN 25
@@ -15,3 +18,5 @@ void ledWhite();
 void ledOff();
 
 void flashWhite(int delayInMs);
+
+#endif
