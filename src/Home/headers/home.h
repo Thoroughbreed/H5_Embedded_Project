@@ -17,8 +17,10 @@
 Servo doorServo;
 long delayOLED;
 long delayPing;
+long delayTime;
 const int doorClosed = 0;
 const int doorOpen = 90;
+String messageToDisplay;
 
 /************************* External declarations *********************************/
 extern WiFiClient wifiClient;

@@ -25,9 +25,9 @@ void initDisplay()
 void initWireless()
 {
     printOLED(0, 0, "Connecting to:", 1);
-    printOLED(0, 10, WLAN_SSID, 2);
+    printOLED(0, 10, SECRET_SSID, 2);
     display.display();
-    WiFi.begin(WLAN_SSID, WLAN_PASS);
+    WiFi.begin(SECRET_SSID, SECRET_PASS);
     int i = 0;
     while (WiFi.status() != WL_CONNECTED)
     {
