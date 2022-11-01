@@ -8,6 +8,5 @@ void setup() {
 }
 
 void loop() {
-  loopClimate();
-
+  // put your main code here, to run repeatedly:
 }
