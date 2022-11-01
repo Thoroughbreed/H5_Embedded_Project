@@ -13,5 +13,6 @@ void setup() {
 }
 
 void loop() {
+    homeLoop();
     // put your main code here, to run repeatedly:
 }

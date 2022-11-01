@@ -100,15 +100,25 @@ void printOLED(int x, int y, String text, int textSize)
     display.println(text);
 }
 
-void updateOLED(int interval)
+void updateOLED(int interval, bool message)
 {
     if ((millis() - delayOLED) > interval)
     {
-        delayOLED = millis();
-        display.clearDisplay();
-        printOLED(0, 0, messageToDisplay, 2);
-        printOLED(0, 55, timeClient.getFormattedTime());
+        if (!message)
+        {
+            delayOLED = millis() + 5000;
+            display.clearDisplay();
+            printOLED(0, 0, messageToDisplay);
+            printOLED(0, 55, timeClient.getFormattedTime());
+        }
+        else
+        {
+            delayOLED = millis();
+            display.clearDisplay();
+            printOLED(0, 0, timeClient.getFormattedTime(), 2);
+        }
         display.display();
+        incomingMessage = false;
     }
 }
 
@@ -136,9 +146,8 @@ void onMessageReceived(String& topic, String& payload)
     }
     if (topic == LOG)
     {
-        // TODO Do something!
         // Vis log
-        messageToDisplay = payload;
+        logMessage = payload;
         Serial.println(messageToDisplay);
         flashWhite(75);
     }
@@ -211,17 +220,27 @@ void checkPassword(char key)
 
 void keyIn()
 {
-    char key = '1';//keypad.getKey();
+    char key = keypad.getKey();
     switch (key)
     {
         case 'A':
-            // TODO
+            incomingMessage = true;
+            messageToDisplay = "Press * to fully arm system";
+            ArmPerim = false;
+            ArmSystem = true;
+            // TODO NEEDS TEST
             break;
         case 'B':
-            // TODO
+            incomingMessage = true;
+            messageToDisplay = "Press * to partially arm system";
+            ArmSystem = false;
+            ArmPerim = true;
+            // TODO NEEDS TEST
             break;
         case 'C':
-            // TODO
+            incomingMessage = true;
+            messageToDisplay = logMessage;
+            // TODO NEEDS TEST
             break;
         case 'D':
             // TODO
@@ -230,15 +249,26 @@ void keyIn()
             pwdCount = 0;
             if (comparePassword(pwdTest))
             {
-                // TODO Unlock
+                messageToDisplay = "Welcome home :)";
+                incomingMessage = true;
             }
             else
             {
-                // TODO Lock
+                messageToDisplay = "ACCESS DENIED!";
+                incomingMessage = true;
             }
             break;
         case '*':
-            // TODO
+            if (ArmSystem)
+            {
+                mqttAlarmAction("2");
+                ArmSystem = false;
+            }
+            else if (ArmPerim)
+            {
+                mqttAlarmAction("1");
+                ArmPerim = false;
+            }
             break;
         default:
             checkPassword(key);
@@ -251,18 +281,26 @@ bool comparePassword(char pw[])
     if (pwdTest[0] == pwd[0] && pwdTest[1] == pwd[1] && pwdTest[2] == pwd[2] && pwdTest[3] == pwd[3])
     {
         pwdTest[0] = 0;
+        mqttClient.publish(LOG, "Password OK");
+        mqttClient.publish(ALARM_STAT, "0");
+        mqttClient.publish(LOG, "Alarm disabled");
         return true;
     }
+    mqttClient.publish(LOG "Wrong password at entry!");
     return false;
+}
+
+void mqttAlarmAction(String action) // 0 = Unarmed, 1 = Partial armed, 2 = Fully armed
+{
+
 }
 
 #pragma endregion
 
-//void loop()
-//{
-//    updateOLED(500);
-//    getTime(); // Default is 1 time
-//    mqttConnect();
-//    mqttSub();
-//    keyIn();
-//}
+void homeLoop()
+{
+    updateOLED(500, incomingMessage);
+    pingDoors(2000);
+    getTime(); // Default is 1 time
+    keyIn();
+}
