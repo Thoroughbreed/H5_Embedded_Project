@@ -18,23 +18,25 @@ void loopAlarm() {
     mqttClient.loop();
     if (alarmArmedState == ALARM_DISARMED) return;
 
-    if (millis() - checkSensorMillis > 5000) {
+    if (millis() - checkSensorMillis > ALARM_SENSOR_CHECK_INTERVAL) {
         checkSensorMillis = millis();
         checkSensors();
     }
 }
 
 void checkSensors() {
-    checkPIR();
-    if (alarmArmedState == ALARM_FULLY_ARMED) {
-        checkMagnet();
-    }
-}
-void checkPIR() {
+    bool anyMovement = checkPIR();
+    if (anyMovement) activateAlarm();
 
+    // if (alarmArmedState == ALARM_FULLY_ARMED) {
+    //     checkMagnet();
+    // }
 }
 void checkMagnet() {
     
+}
+void activateAlarm() {
+    mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "1");
 }
 void setArmed(String payload) {
     if (payload.toInt() == ALARM_DISARMED) {
