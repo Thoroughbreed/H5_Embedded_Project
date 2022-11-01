@@ -4,6 +4,7 @@ WiFiClient wifiClient;
 
 bool setupWiFi() {
   int retry = 5;
+  ledRed();
   Serial.print("WiFi: Connecting...");
   WiFi.begin(ssid, pass);
 

@@ -5,6 +5,7 @@ extern WiFiClient wifiClient;
 MQTTClient mqttClient;
 
 void setupMQTT(char* clientId, MQTTClientCallbackSimpleFunction messageReceivedCallback) {
+  ledBlue();
   Serial.print("\nMQTT: Connecting...");
 
   mqttClient.begin(MQTT_BROKER_ADDRESS, wifiClient);
@@ -16,4 +17,5 @@ void setupMQTT(char* clientId, MQTTClientCallbackSimpleFunction messageReceivedC
   }
 
   Serial.println("\nMQTT: Connected!");
+  ledGreen();
 }
