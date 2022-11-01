@@ -5,6 +5,7 @@
 #include <WiFiNINA.h>
 #include <MQTT.h>
 #include <utility/wifi_drv.h>    
+#include <Servo.h>
 
 #define DHTPIN 2
 #define DHTTYPE DHT11

@@ -6,8 +6,11 @@ char pass[] = SECRET_PASS;
 WiFiClient net;
 MQTTClient client;
 DHT dht(DHTPIN, DHTTYPE);
+Servo myservo;
 
 unsigned long lastMillis = 0;
+
+
 
 void setupClimate()
 {
@@ -21,6 +24,7 @@ void setupClimate()
 
     connect();
     dht.begin();
+    myservo.attach(3);
 
 }
 
@@ -49,6 +53,7 @@ void loopClimate()
     client.publish("home/climate/status/test", Climate);
     Serial.println(Climate);
   }
+  
 
 }
 
@@ -72,13 +77,14 @@ void connect() {
 
   Serial.println("\nconnected!");
 
-  //client.subscribe("LightOff");
+  client.subscribe("home/climate/servo/test");
   //client.subscribe("LightOn");
 }
 
 void messageReceived(String &topic, String &payload) {
   Serial.println("incoming: " + topic + " - " + payload);
 
+  myservo.write(payload.toInt());  
   // Note: Do not use the client in the callback to publish, subscribe or
   // unsubscribe as it may cause deadlocks when other things arrive while
   // sending and receiving acknowledgments. Instead, change a global variable,
