@@ -1,13 +1,14 @@
+
+#ifndef H5_EMBEDDED_PROJECT_HOME_H
+#define H5_EMBEDDED_PROJECT_HOME_H
+
 #include "../../Shared/shared.h"           // Shared
-#include <SPI.h>                        // SPI
-#include "../../../.pio/libdeps/mkrwifi1010/WiFiNINA/src/utility/wifi_drv.h"           // RGB LED
-#include "../../../../../.platformio/packages/framework-arduino-samd/libraries/Wire/Wire.h"                       // I2C
-#include "../../../.pio/libdeps/mkrwifi1010/Adafruit GFX Library/Adafruit_GFX.h"               // OLED
 #include "../../../.pio/libdeps/mkrwifi1010/Adafruit SSD1306/Adafruit_SSD1306.h"           // OLED
 #include "../../../.pio/libdeps/mkrwifi1010/Servo/src/Servo.h"
 #include "keypad.h"                     // Keypad
 #include "../../Shared/WiFi/wifi.h"
 #include "../../Shared/MQTT/mqtt.h"
+#include "../../Shared/RGB/rgb.h"
 
 
 
@@ -68,26 +69,25 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 //Adafruit_MQTT_Subscribe HMI = Adafruit_MQTT_Subscribe(&mqtt, "home/input/#");
 
 /************************* Func prototyping *********************************/
-void initRGB();                 // Builtin RGB
 void initDisplay();             // OLED
 void initWireless();            // Connects wifi
 void initPing();
 void initServo();
 void initmqttSub(String topic);
+void setupHome();
 
 void printOLED(int x, int y, String text, int textSize = 1);
 void updateOLED(int interval);
 
-//void mqttConnect();
-//void mqttSub();
-//void mqttPub();
 void onMessageReceived(String& topic, String& payload);
 
 void getTime(int interval = 36000000); // 1 hour
 void doPing(int interval);
 void actionDoor(bool open = false);
 
-void flashWhite(int interval);
-void ledRed();
-void ledGreen();
-void ledBlue();
+//void flashWhite(int interval);
+//void ledRed();
+//void ledGreen();
+//void ledBlue();
+
+#endif

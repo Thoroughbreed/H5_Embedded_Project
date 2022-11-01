@@ -6,13 +6,6 @@
 
 #pragma region Initialization
 
-void initRGB()
-{
-    WiFiDrv::RGBpinMode(25, OUTPUT);
-    WiFiDrv::RGBpinMode(26, OUTPUT);
-    WiFiDrv::RGBpinMode(27, OUTPUT);
-}
-
 void initDisplay()
 {
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
@@ -64,7 +57,7 @@ void initmqttSub(String topic)
 void setupHome()
 {
     Serial.begin(9600);
-    initRGB();
+    setupRGB();
     ledRed();
     initDisplay();
     display.clearDisplay();
@@ -156,75 +149,6 @@ void onMessageReceived(String& topic, String& payload)
     }
 }
 
-//void mqttConnect()
-//{
-//    int8_t ret;
-//
-//    if (mqtt.connected())
-//    {
-//        ledGreen();
-//        return;
-//    }
-//
-//    ledBlue();
-//    display.clearDisplay();
-//    printOLED(0, 0, "Conecting to MQTT ...");
-//    printOLED(0, 30, timeClient.getFormattedTime());
-//    display.display();
-//
-//    uint8_t retries = 5;
-//    while ((ret = mqtt.connect()) != 0)
-//    {
-//        display.clearDisplay();
-//        printOLED(0, 0, "Connecting to MQTT ...");
-//        printOLED(0, 10, "Retying MQTT conn.");
-//        printOLED(0, 30, timeClient.getFormattedTime());
-//        display.display();
-//        mqtt.disconnect();
-//        delay(5000);
-//        retries--;
-//        if (retries == 0)
-//        {
-//            while(true)
-//            {
-//                display.clearDisplay();
-//                printOLED(0, 0, "Conecting to MQTT ...");
-//                printOLED(0, 10, "Retrying MQTT conn.");
-//                printOLED(0, 20, "MQTT conn. dead");
-//                printOLED(0, 30, timeClient.getFormattedTime());
-//                printOLED(0, 40, "Check settings!");
-//                display.display();
-//                delay(999);
-//            }
-//        }
-//    }
-//    display.clearDisplay();
-//    printOLED(0, 0, "Conecting to MQTT ...");
-//    printOLED(0, 10, "MQTT connected!");
-//    display.display();
-//    Serial.println("MQTT Connected!");
-//    ledGreen();
-//    delay(1234);
-//}
-//
-//void mqttSub()
-//{
-//    Adafruit_MQTT_Subscribe *subscription;
-//    while ((subscription = mqtt.readSubscription()))
-//    {
-//
-//
-//    }
-//}
-//
-//void mqttPub(const char* payload, Adafruit_MQTT_Publish topic)
-//{
-//    if (!topic.publish(payload))
-//    {
-//        // Todo some kind of error??
-//    }
-//}
-
 #pragma endregion
 
 #pragma region Misc functions
@@ -263,59 +187,6 @@ void actionDoor(bool open)
 {
     if (open) { doorServo.write(doorOpen); }
     else { doorServo.write(doorClosed); }
-}
-
-#pragma endregion
-
-#pragma region LED Control
-
-void flashWhite(int interval)
-{
-    WiFiDrv::digitalWrite(25, 1);   //GREEN
-    WiFiDrv::digitalWrite(26, 1);   //RED
-    WiFiDrv::digitalWrite(27, 1);   //BLUE
-    delay(interval);
-    WiFiDrv::digitalWrite(25, 0);   //GREEN
-    WiFiDrv::digitalWrite(26, 0);   //RED
-    WiFiDrv::digitalWrite(27, 0);   //BLUE
-    delay(interval);
-    WiFiDrv::digitalWrite(25, 1);   //GREEN
-    WiFiDrv::digitalWrite(26, 1);   //RED
-    WiFiDrv::digitalWrite(27, 1);   //BLUE
-    delay(interval);
-    WiFiDrv::digitalWrite(25, 0);   //GREEN
-    WiFiDrv::digitalWrite(26, 0);   //RED
-    WiFiDrv::digitalWrite(27, 0);   //BLUE
-    delay(interval);
-    WiFiDrv::digitalWrite(25, 1);   //GREEN
-    WiFiDrv::digitalWrite(26, 1);   //RED
-    WiFiDrv::digitalWrite(27, 1);   //BLUE
-    delay(interval);
-    WiFiDrv::digitalWrite(25, 0);   //GREEN
-    WiFiDrv::digitalWrite(26, 0);   //RED
-    WiFiDrv::digitalWrite(27, 0);   //BLUE
-    delay(interval);
-}
-
-void ledRed()
-{
-    WiFiDrv::digitalWrite(25, 0);   //GREEN
-    WiFiDrv::digitalWrite(26, 1);   //RED
-    WiFiDrv::digitalWrite(27, 0);   //BLUE
-}
-
-void ledGreen()
-{
-    WiFiDrv::digitalWrite(25, 1);   //GREEN
-    WiFiDrv::digitalWrite(26, 0);   //RED
-    WiFiDrv::digitalWrite(27, 0);   //BLUE
-}
-
-void ledBlue()
-{
-    WiFiDrv::digitalWrite(25, 0);   //GREEN
-    WiFiDrv::digitalWrite(26, 0);   //RED
-    WiFiDrv::digitalWrite(27, 1);   //BLUE
 }
 
 #pragma endregion

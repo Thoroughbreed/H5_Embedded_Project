@@ -1,13 +1,11 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
+#include "Home/headers/home.h"
 
 void setup() {
-<<<<<<< HEAD
-    // put your setup code here, to run once:
-=======
   Serial.begin(9600);
   // put your setup code here, to run once:
->>>>>>> develop
+    setupHome();
 }
 
 void loop() {
