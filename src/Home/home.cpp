@@ -2,7 +2,7 @@
 // Created by Jan Andreasen on 01/11/2022.
 //
 
-#include "home.h"
+#include "Home/headers/home.h"
 
 #pragma region Initialization
 
@@ -55,7 +55,7 @@ void initServo()
     doorServo.attach(DOORSERVO);
 }
 
-void setup()
+void setupHome()
 {
     Serial.begin(9600);
     initRGB();
@@ -360,11 +360,11 @@ bool comparePassword(char pw[])
 
 #pragma endregion
 
-void loop()
-{
-    updateOLED(500);
-    getTime(); // Default is 1 time
-    mqttConnect();
-    mqttSub();
-    keyIn();
-}
+//void loop()
+//{
+//    updateOLED(500);
+//    getTime(); // Default is 1 time
+//    mqttConnect();
+//    mqttSub();
+//    keyIn();
+//}

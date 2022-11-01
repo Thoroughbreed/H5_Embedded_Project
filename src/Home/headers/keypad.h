@@ -5,7 +5,7 @@
 #ifndef H5_EMBEDDED_PROJECT_KEYPAD_H
 #define H5_EMBEDDED_PROJECT_KEYPAD_H
 
-#include <Keypad.h>
+#include "../../../.pio/libdeps/mkrwifi1010/Keypad/src/Keypad.h"
 
 #define ROWS 4												// Number of rows in keypad
 #define COLS 4												// Number of columns in keypad

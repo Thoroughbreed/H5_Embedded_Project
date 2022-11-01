@@ -1,13 +1,14 @@
-#include "../Shared/shared.h"           // Shared
+#include "../../Shared/shared.h"           // Shared
 #include <SPI.h>                        // SPI
-#include <utility/wifi_drv.h>           // RGB LED
-#include <Wire.h>                       // I2C
-#include <Adafruit_GFX.h>               // OLED
-#include <Adafruit_SSD1306.h>           // OLED
+#include "../../../.pio/libdeps/mkrwifi1010/WiFiNINA/src/utility/wifi_drv.h"           // RGB LED
+#include "../../../../../.platformio/packages/framework-arduino-samd/libraries/Wire/Wire.h"                       // I2C
+#include "../../../.pio/libdeps/mkrwifi1010/Adafruit GFX Library/Adafruit_GFX.h"               // OLED
+#include "../../../.pio/libdeps/mkrwifi1010/Adafruit SSD1306/Adafruit_SSD1306.h"           // OLED
 #include "Adafruit_MQTT.h"              // MQTT
 #include "Adafruit_MQTT_Client.h"       // MQTT
 #include <Servo.h>                      // Run servos
 #include "keypad.h"                     // Keypad
+#include "../../Shared/WiFi/wifi.h"
 
 
 
@@ -18,6 +19,7 @@ long delayOLED;
 long delayPing;
 const int doorClosed = 0;
 const int doorOpen = 90;
+extern WiFiClient wifiClient;
 
 /************************* Door opener (ping-dims) *********************************/
 #define TRIGGER_PING 2           // TODO er den pin overhovedet ledig??
@@ -40,7 +42,7 @@ const int doorOpen = 90;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // MQTT
-Adafruit_MQTT_Client mqtt(&client, MQTT_SERVER, MQTT_SERVERPORT, MQTT_CLIENTID, MQTT_USERNAME, MQTT_PWD);
+Adafruit_MQTT_Client mqtt(&wifiClient, MQTT_SERVER, MQTT_SERVERPORT, MQTT_CLIENTID, MQTT_USERNAME, MQTT_PWD);
 /****************************** Feeds ***************************************/
 // PUB
 Adafruit_MQTT_Publish alarmStatus = Adafruit_MQTT_Publish(&mqtt, "home/alarm/status");

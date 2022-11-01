@@ -14,4 +14,4 @@ NTPClient timeClient(ntpUDP);
 
 /************************* Var & const *********************************/
 long delayTime;
-WiFiClient client;          // Wireless client
+// WiFiClient client;          // Wireless client
