@@ -4,9 +4,9 @@
 
 void initRGB()
 {
-    WiFiDrv::pinMode(25, OUTPUT);
-    WiFiDrv::pinMode(26, OUTPUT);
-    WiFiDrv::pinMode(27, OUTPUT);
+    WiFiDrv::RGBpinMode(25, OUTPUT);
+    WiFiDrv::RGBpinMode(26, OUTPUT);
+    WiFiDrv::RGBpinMode(27, OUTPUT);
 }
 
 void initDisplay()
@@ -309,7 +309,7 @@ void checkPassword(char key)
 
 void keyIn()
 {
-    char key = keypad.getKey();
+    char key = '1';//keypad.getKey();
     switch (key)
     {
         case 'A':
