@@ -16,6 +16,7 @@ void setupClimate()
   char clientId[] = "House_Cilmate";
   setupMQTT(clientId, onMessageReceived);
 
+  mqttClient.subscribe("home/climate/servo");
   mqttClient.subscribe("home/climate/status/test");
   dht.begin();
 
