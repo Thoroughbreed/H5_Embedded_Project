@@ -1,10 +1,14 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
+#include "Climate/climate.h"
 
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(9600);
+  setupClimate();
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  loopClimate();
+
 }
