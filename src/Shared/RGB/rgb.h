@@ -6,3 +6,12 @@
 
 void setRGB(byte r, byte g, byte b);
 void setupRGB();
+
+void ledRed();
+void ledGreen();
+void ledBlue();
+
+void ledWhite();
+void ledOff();
+
+void flashWhite(int delayInMs);
