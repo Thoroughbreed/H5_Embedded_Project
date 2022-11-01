@@ -17,13 +17,15 @@ void setupClimate()
   setupMQTT(clientId, onMessageReceived);
 
   mqttClient.subscribe("home/climate/servo");
-  mqttClient.subscribe("home/climate/status/test");
+  //mqttClient.subscribe("home/climate/status/test");
   dht.begin();
+  setupMyservo();
 
 }
 
 void loopClimate()
 {
+  mqttClient.loop();
   // publish a message roughly every second.
   if (millis() - lastMillis > 5000) {
     lastMillis = millis();
@@ -42,6 +44,11 @@ void loopClimate()
 
 void onMessageReceived(String& topic, String& payload) {
   Serial.println("Incoming: " + topic + " Payload: " + payload);
+  if(topic == "home/climate/servo")
+  {
+    setMyservo(payload.toInt());
+  }
+
 }
 
 
