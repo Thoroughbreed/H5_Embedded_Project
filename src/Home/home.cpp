@@ -32,10 +32,11 @@ void initWireless()
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);
-        display.setCursor(i, 20);
+        display.setCursor(i*2, 20);
         display.write(".");
         display.display();
         i++;
+        if (i == 50) resetFunc();
     }
     display.clearDisplay();
     printOLED(0, 0, "WiFi connected!");
@@ -71,7 +72,21 @@ void setupHome()
     timeClient.begin();
     initWireless();
     getTime(0);
-    setupMQTT(CLIENTID, onMessageReceived);
+    timeClient.setTimeOffset(3600);
+    if (!setupMQTT(CLIENTID, onMessageReceived))
+    {
+        while(true)
+        {
+            display.clearDisplay();
+            printOLED(0, 0, "Conecting to MQTT ...");
+            printOLED(0, 10, "Retrying MQTT conn.");
+            printOLED(0, 20, "MQTT conn. dead");
+            printOLED(0, 30, timeClient.getFormattedTime());
+            printOLED(0, 40, "Check settings!");
+            display.display();
+            delay(999);
+        }
+    }
     initmqttSub(ALARM_TOP);
     initPing();
     initServo();

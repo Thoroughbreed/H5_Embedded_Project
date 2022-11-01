@@ -14,3 +14,6 @@ NTPClient timeClient(ntpUDP);
 /************************* Var & const *********************************/
 long delayTime;
 String messageToDisplay;    // Message for OLED
+
+/************************* Reset board! ********************************/
+void(* resetFunc) (void) = 0;
