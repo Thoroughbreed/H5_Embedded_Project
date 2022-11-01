@@ -4,9 +4,7 @@
 #include "../../../../../.platformio/packages/framework-arduino-samd/libraries/Wire/Wire.h"                       // I2C
 #include "../../../.pio/libdeps/mkrwifi1010/Adafruit GFX Library/Adafruit_GFX.h"               // OLED
 #include "../../../.pio/libdeps/mkrwifi1010/Adafruit SSD1306/Adafruit_SSD1306.h"           // OLED
-//#include "Adafruit_MQTT.h"              // MQTT
-//#include "Adafruit_MQTT_Client.h"       // MQTT
-#include <Servo.h>                      // Run servos
+#include "../../../.pio/libdeps/mkrwifi1010/Servo/src/Servo.h"
 #include "keypad.h"                     // Keypad
 #include "../../Shared/WiFi/wifi.h"
 #include "../../Shared/MQTT/mqtt.h"
