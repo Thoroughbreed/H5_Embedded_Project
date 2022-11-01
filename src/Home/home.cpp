@@ -83,6 +83,7 @@ void setupHome()
             delay(999);
         }
     }
+    mqttClient.setWill("lwt/home", "Home controller lost connection!", true, 1);
     initmqttSub(ALARM_TOP);
     initPing();
     initServo();
@@ -247,7 +248,7 @@ void keyIn()
             break;
         case '#':
             pwdCount = 0;
-            if (comparePassword(pwdTest))
+            if (comparePassword())
             {
                 messageToDisplay = "Welcome home :)";
                 incomingMessage = true;
@@ -261,12 +262,12 @@ void keyIn()
         case '*':
             if (ArmSystem)
             {
-                mqttAlarmAction("2");
+                mqttClient.publish(ALARM_STAT, "2");
                 ArmSystem = false;
             }
             else if (ArmPerim)
             {
-                mqttAlarmAction("1");
+                mqttClient.publish(ALARM_STAT, "1");
                 ArmPerim = false;
             }
             break;
@@ -276,7 +277,7 @@ void keyIn()
     }
 }
 
-bool comparePassword(char pw[])
+bool comparePassword()
 {
     if (pwdTest[0] == pwd[0] && pwdTest[1] == pwd[1] && pwdTest[2] == pwd[2] && pwdTest[3] == pwd[3])
     {
@@ -288,11 +289,6 @@ bool comparePassword(char pw[])
     }
     mqttClient.publish(LOG "Wrong password at entry!");
     return false;
-}
-
-void mqttAlarmAction(String action) // 0 = Unarmed, 1 = Partial armed, 2 = Fully armed
-{
-
 }
 
 #pragma endregion

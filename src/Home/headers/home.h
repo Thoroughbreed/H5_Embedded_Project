@@ -33,10 +33,10 @@ extern MQTTClient mqttClient;
 
 
 /************************* Door opener (ping-dims) *********************************/
-#define TRIGGER_PING 2           // TODO er den pin overhovedet ledig??
-#define ECHO_PING 3              // TODO er den pin overhovedet ledig??
+#define TRIGGER_PING 6           // TODO er den pin overhovedet ledig??
+#define ECHO_PING 7              // TODO er den pin overhovedet ledig??
 #define PULSE_WAIT 200000
-#define DOORSERVO 4              // TODO er den pin overhovedet ledig??
+#define DOORSERVO 9              // TODO er den pin overhovedet ledig??
 
 
 /************************* Devices/classes *********************************/
@@ -68,7 +68,6 @@ void onMessageReceived(String& topic, String& payload);
 void updateOLED(int interval, bool screensaver = true);
 void printOLED(int x, int y, String text, int textSize = 1);
 
-void mqttAlarmAction(String action);
 void getTime(int interval = 36000000); // 1 hour
 void pingDoors(int interval);
 void actionDoor(bool open = false);
