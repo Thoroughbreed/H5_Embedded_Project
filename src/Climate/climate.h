@@ -1,11 +1,9 @@
-
-#include "../Shared/RGB/rgb.h"
 #include <DHT.h>
-#include <SPI.h>
-#include <WiFiNINA.h>
-#include <MQTT.h>
-#include <utility/wifi_drv.h>    
-#include <Servo.h>
+
+#include "Shared/RGB/rgb.h"
+#include "Shared/WiFi/wifi.h"
+#include "Shared/Servo/myservo.h"
+#include "Shared/MQTT/mqtt.h"
 #include "Shared/WiFi/wifi.h"
 
 #define DHTPIN 2
@@ -13,11 +11,4 @@
 
 void setupClimate();
 void loopClimate();
-void connect();
-void messageReceived(String &topic, String &payload);
-void LedGreen();
-void LedRed();
-void LedBlue();
-void LedFlashWithe();
-void LedWhite();
-void LedOff();
+void onMessageReceived(String& topic, String& payload);
