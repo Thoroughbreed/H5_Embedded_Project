@@ -1,7 +1,9 @@
 #include "climate.h"
 
 extern MQTTClient mqttClient;
-DHT dht(DHTPIN, DHTTYPE);
+DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
+DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
+DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
 
 unsigned long lastMillis = 0;
 
@@ -17,8 +19,11 @@ void setupClimate()
   setupMQTT(clientId, onMessageReceived);
 
   mqttClient.subscribe("home/climate/servo");
-  //mqttClient.subscribe("home/climate/status/test");
-  dht.begin();
+  //mqttClient.subscribe("home/alarm/status");
+  //mqttClient.subscribe("home/climate/status/#");
+  dhtLivingroom.begin();
+  dhtKitchen.begin();
+  dhtBedroom.begin();
   setupMyservo();
 
 }
@@ -27,16 +32,20 @@ void loopClimate()
 {
   mqttClient.loop();
   // publish a message roughly every second.
-  if (millis() - lastMillis > 5000) {
+  if (millis() - lastMillis > 10000) {
     lastMillis = millis();
-    String Temp = String(dht.readTemperature());
-    String Humid = String(dht.readHumidity());
-    String Climate = "Temp = ";
-    Climate += Temp; 
-    Climate += " Humid = ";
-    Climate += Humid;
-    mqttClient.publish("home/climate/status/test", Climate);
-    Serial.println(Climate);
+    //livingroom
+    mqttClient.publish("home/climate/status/livingroom/temp", getTempLivingroom());
+    mqttClient.publish("home/climate/status/livingroom/humid", getHumidLivingroom());
+    delay(1000);
+    //kithcen
+    mqttClient.publish("home/climate/status/kitchen/temp", getTempKitchen());
+    mqttClient.publish("home/climate/status/kitchen/humid", getHumidKitchen());
+    delay(1000);
+    //bedroom
+    mqttClient.publish("home/climate/status/bedroom/temp", getTempBedroom());
+    mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom());
+    delay(1000);
   }
 }
 
@@ -48,7 +57,68 @@ void onMessageReceived(String& topic, String& payload) {
   {
     setMyservo(payload.toInt());
   }
-
+  if (topic == "home/alarm/status")
+  {
+    if (payload == "1" || payload == "2")
+    {
+      void alarmOnServoClose();
+    }
+  }
+  
 }
+
+// Livingroom
+String getTempLivingroom()
+{
+  String Temp = "Temp livinroom = ";
+  Temp +=  String(dhtLivingroom.readTemperature());
+  Serial.println(Temp);
+  return Temp;
+}
+
+String getHumidLivingroom()
+{
+  String Humid = "Humid livingroom = ";
+  Humid += String(dhtLivingroom.readHumidity());
+  Serial.println(Humid);
+  return Humid;
+}
+
+
+// Kitchen
+String getTempKitchen()
+{
+  String Temp = "Temp kitchen = ";
+  Temp +=  String(dhtKitchen.readTemperature());
+  Serial.println(Temp);
+  return Temp;
+}
+
+String getHumidKitchen()
+{
+  String Humid = "Humid kitchen = ";
+  Humid += String(dhtKitchen.readHumidity());
+  Serial.println(Humid);
+  return Humid;
+}
+
+
+// Bedroom
+String getTempBedroom()
+{
+  String Temp = "Temp bedroom = ";
+  Temp +=  String(dhtBedroom.readTemperature());
+  Serial.println(Temp);
+  return Temp;
+}
+
+String getHumidBedroom()
+{
+  String Humid = "Humid bedroom = ";
+  Humid += String(dhtBedroom.readHumidity());
+  Serial.println(Humid);
+  return Humid;
+}
+
 
 

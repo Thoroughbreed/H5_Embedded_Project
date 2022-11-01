@@ -9,3 +9,8 @@ void setupMyservo() {
 void setMyservo(int servoAngel) {
   myservo.write(servoAngel);
 }
+
+void alarmOnServoClose()
+{
+  myservo.write(0);
+}
