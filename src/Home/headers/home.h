@@ -9,6 +9,7 @@
 #include "../../Shared/WiFi/wifi.h"
 #include "../../Shared/MQTT/mqtt.h"
 #include "../../Shared/RGB/rgb.h"
+#include "home_func.h"
 
 
 
@@ -68,6 +69,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 //Adafruit_MQTT_Subscribe readLog = Adafruit_MQTT_Subscribe(&mqtt, "home/log/#");
 //Adafruit_MQTT_Subscribe HMI = Adafruit_MQTT_Subscribe(&mqtt, "home/input/#");
 
+
 /************************* Func prototyping *********************************/
 void initDisplay();             // OLED
 void initWireless();            // Connects wifi
@@ -76,18 +78,6 @@ void initServo();
 void initmqttSub(String topic);
 void setupHome();
 
-void printOLED(int x, int y, String text, int textSize = 1);
-void updateOLED(int interval);
 
-void onMessageReceived(String& topic, String& payload);
-
-void getTime(int interval = 36000000); // 1 hour
-void doPing(int interval);
-void actionDoor(bool open = false);
-
-//void flashWhite(int interval);
-//void ledRed();
-//void ledGreen();
-//void ledBlue();
 
 #endif

@@ -2,7 +2,10 @@
 // Created by Jan Andreasen on 01/11/2022.
 //
 
+#ifndef HOME_HEADER
+#define HOME_HEADER
 #include "Home/headers/home.h"
+#endif
 
 #pragma region Initialization
 

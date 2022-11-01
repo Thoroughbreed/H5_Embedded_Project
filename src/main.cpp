@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
-#include "Home/headers/home.h"
+
+#ifndef HOME_HEADER
+#define HOME_HEADER
+#include "Home/headers/home_func.h"
+#endif
 
 void setup() {
   Serial.begin(9600);
