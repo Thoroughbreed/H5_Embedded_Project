@@ -1,7 +1,8 @@
 #include "../Shared/RGB/rgb.h"
 #include "../Shared/WiFi/wifi.h"
 #include "../Shared/MQTT/mqtt.h"
-#include "../Alarm/PIR/pir.h"
+#include "PIR/pir.h"
+#include "REED/reed.h"
 
 #define MQTT_ALARM_CLIENT_ID "House_Alarm"
 #define MQTT_ARM_TOPIC "home/alarm/status"
@@ -18,6 +19,6 @@ void loopAlarm();
 void setArmed(String payload);
 void onMessageReceived(String &topic, String &payload);
 
-bool checkMagnet();
 void checkSensors();
 void activateAlarm();
+void deactivateAlarm();

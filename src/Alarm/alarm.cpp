@@ -9,6 +9,8 @@ unsigned long checkSensorMillis = 0;
 void setupAlarm() {
     Serial.begin(9600);
     setupRGB();
+    setupPIR();
+    setupREED();
     
     while (!setupWiFi());
     while (!setupMQTT((char*)clientId, onMessageReceived));
@@ -31,14 +33,10 @@ void checkSensors() {
     bool doorOpened = false;
 
     if (alarmArmedState == ALARM_FULLY_ARMED) {
-        doorOpened = checkMagnet();
+        doorOpened = checkREED();
     }
     if (anyMovement || doorOpened) activateAlarm();
 
-}
-
-bool checkMagnet() {
-    
 }
 
 void activateAlarm() {
