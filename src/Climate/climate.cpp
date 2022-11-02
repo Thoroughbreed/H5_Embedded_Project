@@ -46,6 +46,8 @@ void loopClimate()
     mqttClient.publish("home/climate/status/bedroom/temp", getTempBedroom());
     mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom());
     delay(1000);
+    mqttClient.publish("home/climate/status/Airquality", getMQ2());
+
   }
 }
 
@@ -67,12 +69,20 @@ void onMessageReceived(String& topic, String& payload) {
   
 }
 
+
+String getMQ2()
+{
+	int ppm = analogRead(AIR);
+  return String(ppm);
+}
+
+
+
 // Livingroom
 String getTempLivingroom()
 {
   String Temp = "Temp livinroom = ";
   Temp +=  String(dhtLivingroom.readTemperature());
-  Serial.println(Temp);
   return Temp;
 }
 
@@ -80,7 +90,6 @@ String getHumidLivingroom()
 {
   String Humid = "Humid livingroom = ";
   Humid += String(dhtLivingroom.readHumidity());
-  Serial.println(Humid);
   return Humid;
 }
 
@@ -90,7 +99,6 @@ String getTempKitchen()
 {
   String Temp = "Temp kitchen = ";
   Temp +=  String(dhtKitchen.readTemperature());
-  Serial.println(Temp);
   return Temp;
 }
 
@@ -98,7 +106,6 @@ String getHumidKitchen()
 {
   String Humid = "Humid kitchen = ";
   Humid += String(dhtKitchen.readHumidity());
-  Serial.println(Humid);
   return Humid;
 }
 
@@ -108,7 +115,6 @@ String getTempBedroom()
 {
   String Temp = "Temp bedroom = ";
   Temp +=  String(dhtBedroom.readTemperature());
-  Serial.println(Temp);
   return Temp;
 }
 
@@ -116,7 +122,6 @@ String getHumidBedroom()
 {
   String Humid = "Humid bedroom = ";
   Humid += String(dhtBedroom.readHumidity());
-  Serial.println(Humid);
   return Humid;
 }
 

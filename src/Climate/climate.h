@@ -10,6 +10,7 @@
 #define DHTPIN3kitchen 3
 #define DHTPIN4Bedroom 4
 #define DHTTYPE DHT11
+#define AIR A1
 
 void setupClimate();
 void loopClimate();
@@ -20,3 +21,4 @@ String getTempKitchen();
 String getHumidKitchen();
 String getTempBedroom();
 String getHumidBedroom();
+String getMQ2();
