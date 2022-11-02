@@ -1,7 +1,7 @@
 #include "Climate/climate.h"
 #include "Shared/Logging/log.h"
 
-int hysterese = 5;
+int hysterese = 10;
 
 // Livingroom
 String getHumidLivingroom(DHT* dhtLivingroom)
@@ -24,7 +24,7 @@ void checkLivingroomHumid(int setLivingroomHunid, DHT* dhtLivingroom)
   }
   if (dhtLivingroom->readHumidity() > (setLivingroomHunid - hysterese) && dhtLivingroom->readTemperature() < (setLivingroomHunid + hysterese))
   {
-    logInfo("climate", "Livingroom: humid is OK");
+    logDebug("climate", "Livingroom: humid is OK");
   }
   
 }
@@ -51,7 +51,7 @@ void checkKitchenHumid(int setKitchenHumid, DHT* dhtKitchen)
   }
   if (dhtKitchen->readHumidity() > (setKitchenHumid - hysterese) && dhtKitchen->readTemperature() < (setKitchenHumid + hysterese))
   {
-    logInfo("climate", "Kitchen: humid is OK");
+    logDebug("climate", "Kitchen: humid is OK");
   }
   
 }
@@ -78,7 +78,7 @@ void checkBedroomHumid(int setBedroomHumid, DHT* dhtBedroom)
   }
   if (dhtBedroom->readHumidity() > (setBedroomHumid - hysterese) && dhtBedroom->readTemperature() < (setBedroomHumid + hysterese))
   {
-    logInfo("climate", "Bedroom: humid is OK");
+    logDebug("climate", "Bedroom: humid is OK");
   }
   
 }

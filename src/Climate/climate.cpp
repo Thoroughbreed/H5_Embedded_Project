@@ -68,8 +68,22 @@ void loopClimate()
     // Airquality
     mqttClient.publish("home/climate/status/airquality", getMQ2());
 
+    // Check Temp
+    checkLivingroomTemp(setLivingroomTemp, &dhtLivingroom);
+    checkKitchenTemp(setKitchenTemp, &dhtKitchen);
+    checkBedroomTemp(setBedroomTemp, &dhtBedroom);
+    // Check Humid
+    checkLivingroomHumid(setLivingroomHunid, &dhtLivingroom);
+    checkKitchenHumid(setKitchenHumid, &dhtKitchen);
+    checkBedroomHumid(setBedroomHumid, &dhtBedroom);
+
+    // Chcek Air
+    checkLivingroomHumid();
+
   }
 #pragma endregion
+
+
 
 }
 

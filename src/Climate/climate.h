@@ -34,3 +34,5 @@ void checkBedroomTemp(int setBedroomTemp, DHT* dhtBedroom);
 void checkLivingroomHumid(int setLivingroomHunid, DHT* dhtLivingroom);
 void checkKitchenHumid(int setKitchenHumid, DHT* dhtKitchen);
 void checkBedroomHumid(int setBedroomHumid, DHT* dhtBedroom);
+
+void checkLivingroomHumid();
