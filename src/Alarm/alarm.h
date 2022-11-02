@@ -18,5 +18,6 @@ void loopAlarm();
 void setArmed(String payload);
 void onMessageReceived(String &topic, String &payload);
 
-void checkMagnet();
+bool checkMagnet();
 void checkSensors();
+void activateAlarm();

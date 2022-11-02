@@ -3,6 +3,7 @@
 const char* clientId = MQTT_ALARM_CLIENT_ID;
 extern MQTTClient mqttClient;
 int alarmArmedState = 0;
+bool alarmActive = false;
 unsigned long checkSensorMillis = 0;
 
 void setupAlarm() {
@@ -17,6 +18,7 @@ void setupAlarm() {
 void loopAlarm() {
     mqttClient.loop();
     if (alarmArmedState == ALARM_DISARMED) return;
+    if (alarmActive) return;
 
     if (millis() - checkSensorMillis > ALARM_SENSOR_CHECK_INTERVAL) {
         checkSensorMillis = millis();
@@ -26,17 +28,26 @@ void loopAlarm() {
 
 void checkSensors() {
     bool anyMovement = checkPIR();
-    if (anyMovement) activateAlarm();
+    bool doorOpened = false;
 
-    // if (alarmArmedState == ALARM_FULLY_ARMED) {
-    //     checkMagnet();
-    // }
+    if (alarmArmedState == ALARM_FULLY_ARMED) {
+        doorOpened = checkMagnet();
+    }
+    if (anyMovement || doorOpened) activateAlarm();
+
 }
-void checkMagnet() {
+
+bool checkMagnet() {
     
 }
+
 void activateAlarm() {
-    mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "1");
+    alarmActive = true;
+    mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "1", true, 1);
+}
+void deactivateAlarm() {
+    alarmActive = false;
+    mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "0", true, 1);
 }
 void setArmed(String payload) {
     if (payload.toInt() == ALARM_DISARMED) {
@@ -54,6 +65,10 @@ void setArmed(String payload) {
 void onMessageReceived(String &topic, String &payload) {
     Serial.println("Incoming: " + topic + " Payload: " + payload);
     if (topic == MQTT_ARM_TOPIC) {
+        if (alarmActive && payload.toInt() == ALARM_DISARMED) {
+            deactivateAlarm();
+        }
+
         setArmed(payload);
     }
 }
