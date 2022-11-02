@@ -6,6 +6,7 @@
 #include "../../../.pio/libdeps/mkrwifi1010/Adafruit SSD1306/Adafruit_SSD1306.h"           // OLED
 #include "../../../.pio/libdeps/mkrwifi1010/Servo/src/Servo.h"
 #include "keypad.h"                     // Keypad
+#include "../../../.pio/libdeps/mkrwifi1010/MFRC522/src/MFRC522.h"
 #include "../../Shared/WiFi/wifi.h"
 #include "../../Shared/MQTT/mqtt.h"
 #include "../../Shared/RGB/rgb.h"
@@ -24,6 +25,7 @@ String messageToDisplay;
 String logMessage = "";
 bool ArmSystem = false;
 bool ArmPerim = false;
+bool RFIDActive = true;
 bool incomingMessage = false;
 
 
@@ -33,14 +35,19 @@ extern MQTTClient mqttClient;
 
 
 /************************* Door opener (ping-dims) *********************************/
-#define TRIGGER_PING 6           // TODO er den pin overhovedet ledig??
-#define ECHO_PING 7              // TODO er den pin overhovedet ledig??
+#define TRIGGER_PING 6
+#define ECHO_PING 5
 #define PULSE_WAIT 200000
-#define DOORSERVO 9              // TODO er den pin overhovedet ledig??
+#define DOORSERVO 14
 
+/************************* NFC/RFID *********************************/
+#define RST_PIN 7
+#define SS_PIN 13
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+MFRC522::MIFARE_Key key;
+String uid;
 
-/************************* Devices/classes *********************************/
-// OLED
+/************************* OLED *********************************/
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET -1
@@ -61,6 +68,8 @@ void initDisplay();             // OLED
 void initWireless();            // Connects wifi
 void initPing();
 void initServo();
+
+void readChip();
 
 void initmqttSub(String topic);
 void onMessageReceived(String& topic, String& payload);

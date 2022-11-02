@@ -32,7 +32,13 @@ void initWireless()
         display.write(".");
         display.display();
         i++;
-        if (i == 50) resetFunc();
+        if (i == 50)
+        {
+            display.setCursor(0, 35);
+            display.println("Resetting");
+            display.display();
+            resetFunc();
+        }
     }
     display.clearDisplay();
     printOLED(0, 0, "WiFi connected!");
@@ -66,9 +72,14 @@ void setupHome()
     display.clearDisplay();
     delay(10);
     timeClient.begin();
+    SPI.begin();
+    mfrc522.PCD_Init();
     initWireless();
     getTime(0);
     timeClient.setTimeOffset(3600);
+    display.clearDisplay();
+    printOLED(0, 0, "Connecting to");
+    printOLED(0, 5, "mqtt broker ...");
     if (!setupMQTT(CLIENTID, onMessageReceived))
     {
         while(true)
@@ -105,20 +116,24 @@ void updateOLED(int interval, bool message)
 {
     if ((millis() - delayOLED) > interval)
     {
-        if (!message)
+        if (message)
         {
-            delayOLED = millis() + 5000;
-            display.clearDisplay();
-            printOLED(0, 0, messageToDisplay);
-            printOLED(0, 55, timeClient.getFormattedTime());
+            while ((millis() - delayOLED) < 5000)
+            {
+                display.clearDisplay();
+                printOLED(0, 0, messageToDisplay, 2);
+                printOLED(0, 55, timeClient.getFormattedTime());
+                display.display();
+            }
         }
         else
         {
-            delayOLED = millis();
             display.clearDisplay();
-            printOLED(0, 0, timeClient.getFormattedTime(), 2);
+            printOLED(0, 0, "Connected", 2);
+            printOLED(0, 50, timeClient.getFormattedTime(), 2);
+            display.display();
         }
-        display.display();
+        delayOLED = millis();
         incomingMessage = false;
     }
 }
@@ -129,11 +144,15 @@ void updateOLED(int interval, bool message)
 
 void onMessageReceived(String& topic, String& payload)
 {
+    Serial.println(topic);
+    Serial.println(payload);
+    Serial.println("Bofa");
     if (topic == ALARM_TOP)
     {
         // TODO Do something!
         // Alarm halløj
         messageToDisplay = payload;
+        incomingMessage = true;
         Serial.println(messageToDisplay);
         flashWhite(75);
     }
@@ -142,6 +161,7 @@ void onMessageReceived(String& topic, String& payload)
         // TODO Do something!
         // Klima halløj
         messageToDisplay = payload;
+        incomingMessage = true;
         Serial.println(messageToDisplay);
         flashWhite(75);
     }
@@ -149,6 +169,7 @@ void onMessageReceived(String& topic, String& payload)
     {
         // Vis log
         logMessage = payload;
+        incomingMessage = true;
         Serial.println(messageToDisplay);
         flashWhite(75);
     }
@@ -157,6 +178,7 @@ void onMessageReceived(String& topic, String& payload)
         // TODO Do something!
         // Gør noget!
         messageToDisplay = payload;
+        incomingMessage = true;
         Serial.println(messageToDisplay);
         flashWhite(75);
     }
@@ -202,6 +224,29 @@ void actionDoor(bool open)
     else { doorServo.write(doorClosed); }
 }
 
+void readChip()
+{
+    if (RFIDActive)
+    {
+        if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
+        {
+            delay(50);
+            return;
+        }
+        String newUid = "";
+        for (byte i = 0; i < mfrc522.uid.size; i++)
+        {
+            newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
+            newUid += mfrc522.uid.uidByte[i], HEX;
+        }
+        if (newUid != uid)
+        {
+            mqttClient.publish("jan_test", newUid);
+            uid = newUid;
+        }
+    }
+}
+
 #pragma endregion
 
 #pragma region Keypad and entry
@@ -229,6 +274,7 @@ void keyIn()
             messageToDisplay = "Press * to fully arm system";
             ArmPerim = false;
             ArmSystem = true;
+            RFIDActive = true;
             // TODO NEEDS TEST
             break;
         case 'B':
@@ -236,6 +282,7 @@ void keyIn()
             messageToDisplay = "Press * to partially arm system";
             ArmSystem = false;
             ArmPerim = true;
+            RFIDActive = true;
             // TODO NEEDS TEST
             break;
         case 'C':
@@ -285,6 +332,7 @@ bool comparePassword()
         mqttClient.publish(LOG, "Password OK");
         mqttClient.publish(ALARM_STAT, "0");
         mqttClient.publish(LOG, "Alarm disabled");
+        RFIDActive = false;
         return true;
     }
     mqttClient.publish(LOG "Wrong password at entry!");
@@ -299,4 +347,6 @@ void homeLoop()
     pingDoors(2000);
     getTime(); // Default is 1 time
     keyIn();
+    mqttClient.loop();
+    readChip();
 }
