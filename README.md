@@ -133,6 +133,16 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 ## Entry
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+# MQTT Topics
+| Topics                               | Method                      | QoS | Format    | Description                                  |
+| :----------------------------------- | :-------------------------- | :-- | :-------- | :------------------------------------------- |
+| home/alarm/status                    | External Pub / Sub          | 1   | 0, 1 or 2 | 0 = disarm, 1 = partially arm, 2 = fully arm |
+| home/alarm/alarm                     | Internal Pub / External Sub | 1   | 1         | 1 = activate alarm                           |
+| home/climate/status/#                | External Sub                |     |           |                                              |
+| home/climate/status/[section]/[type] | Internal Pub                |     |           |                                              |
+| home/log/#                           | External Sub                |     |           |                                              |
+| home/log/[section]/[type]            | Internal Pub                |     |           |                                              |
+
 ## Roadmap
 - [ ] Create a custom mqtt-broker with API and database
 - [ ] Make a fully functional alarm/control system
