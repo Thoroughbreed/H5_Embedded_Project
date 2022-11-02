@@ -7,7 +7,12 @@ DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
 DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
 DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
 
-unsigned long lastMillis = 0;
+unsigned long lastMillisPub = 0;
+unsigned long MillisPubInterval = 20000;
+
+unsigned long lastMillisCheck = 0;
+unsigned long MillisCheckInterval = 50000;
+
 
 int setKitchenTemp = 24;
 int setKitchenHumid = 50;
@@ -49,8 +54,8 @@ void loopClimate()
 {
   mqttClient.loop();
 
-  if (millis() - lastMillis > 20000) {
-    lastMillis = millis();
+  if (millis() - lastMillisPub > MillisPubInterval) {
+    lastMillisPub = millis();
     // Publish livingroom
     mqttClient.publish("home/climate/status/livingroom/temp", getTempLivingroom(&dhtLivingroom));
     mqttClient.publish("home/climate/status/livingroom/humid", getHumidLivingroom(&dhtLivingroom));
@@ -62,7 +67,12 @@ void loopClimate()
     mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom(&dhtBedroom));
     // Publish Airquality
     mqttClient.publish("home/climate/status/airquality", getMQ2());
+    Serial.println("publish");
 
+  }
+
+  if (millis() - lastMillisCheck > MillisCheckInterval) {
+    lastMillisCheck = millis();
     // Check Temp
     checkLivingroomTemp(setLivingroomTemp, &dhtLivingroom);
     checkKitchenTemp(setKitchenTemp, &dhtKitchen);
@@ -73,14 +83,16 @@ void loopClimate()
     checkBedroomHumid(setBedroomHumid, &dhtBedroom);
     // Chcek Air
     checkLivingroomHumid();
+    Serial.println("check");
 
   }
+
 }
 
 
 
 void onMessageReceived(String& topic, String& payload) {
-  Serial.println("Incoming: " + topic + " Payload: " + payload);
+  //Serial.println("Incoming: " + topic + " Payload: " + payload);
 
   // servo
   if(topic == "home/climate/servo")

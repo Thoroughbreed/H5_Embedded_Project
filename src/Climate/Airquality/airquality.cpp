@@ -18,7 +18,5 @@ void checkLivingroomHumid()
     logCritical("climate", "AirQuality: AirQuality too bad Run");
     setMyservo(50);
   }
-
-  
 }
 
