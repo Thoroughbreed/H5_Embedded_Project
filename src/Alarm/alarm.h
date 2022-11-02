@@ -5,7 +5,7 @@
 #include "REED/reed.h"
 
 #define MQTT_ALARM_CLIENT_ID "House_Alarm"
-#define MQTT_ARM_TOPIC "home/alarm/status"
+#define MQTT_ARM_TOPIC "home/alarm/arm"
 #define MQTT_ACTIVATE_ALARM_TOPIC "home/alarm/alarm"
 
 #define ALARM_DISARMED 0
