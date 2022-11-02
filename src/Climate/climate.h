@@ -22,3 +22,4 @@ String getHumidKitchen();
 String getTempBedroom();
 String getHumidBedroom();
 String getMQ2();
+void checkClimate(int setclimate);
