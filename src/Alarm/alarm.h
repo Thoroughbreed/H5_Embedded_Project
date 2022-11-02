@@ -22,3 +22,6 @@ void onMessageReceived(String &topic, String &payload);
 void checkSensors();
 void activateAlarm();
 void deactivateAlarm();
+
+void setupConnectivity();
+void ensureConnectivity();
