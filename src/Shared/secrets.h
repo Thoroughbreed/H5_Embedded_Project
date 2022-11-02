@@ -1,2 +1,8 @@
+#ifndef H5_EMBEDDED_PROJECT_SECRETS_H
+#define H5_EMBEDDED_PROJECT_SECRETS_H
+
 #define SECRET_SSID "SibirienAP"
 #define SECRET_PASS "Siberia51244"
+#define SECRET_RFID "2713170115"
+
+#endif
