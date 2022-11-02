@@ -3,7 +3,9 @@
 extern MQTTClient mqttClient;
 extern WiFiClient wifiClient;
 
-
+DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
+DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
+DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
 
 unsigned long lastMillis = 0;
 
@@ -45,8 +47,9 @@ void setupClimate()
 
 #pragma endregion
 
-  setupTemp();
-  setupHumid();
+  dhtLivingroom.begin();
+  dhtKitchen.begin();
+  dhtBedroom.begin();
   setupMyservo();
 
 }
@@ -60,14 +63,14 @@ void loopClimate()
   if (millis() - lastMillis > 20000) {
     lastMillis = millis();
     //livingroom
-    mqttClient.publish("home/climate/status/livingroom/temp", getTempLivingroom());
-    mqttClient.publish("home/climate/status/livingroom/humid", getHumidLivingroom());
+    mqttClient.publish("home/climate/status/livingroom/temp", getTempLivingroom(&dhtLivingroom));
+    mqttClient.publish("home/climate/status/livingroom/humid", getHumidLivingroom(&dhtLivingroom));
     //kithcen
-    mqttClient.publish("home/climate/status/kitchen/temp", getTempKitchen());
-    mqttClient.publish("home/climate/status/kitchen/humid", getHumidKitchen());
+    mqttClient.publish("home/climate/status/kitchen/temp", getTempKitchen(&dhtKitchen));
+    mqttClient.publish("home/climate/status/kitchen/humid", getHumidKitchen(&dhtKitchen));
     //bedroom
-    mqttClient.publish("home/climate/status/bedroom/temp", getTempBedroom());
-    mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom());
+    mqttClient.publish("home/climate/status/bedroom/temp", getTempBedroom(&dhtBedroom));
+    mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom(&dhtBedroom));
     // Airquality
     mqttClient.publish("home/climate/status/airquality", getMQ2());
 

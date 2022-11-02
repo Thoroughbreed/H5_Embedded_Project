@@ -1,41 +1,27 @@
 #include "Climate/climate.h"
 
-DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
-DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
-DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
-
-
-void setupHumid()
-{
-  dhtLivingroom.begin();
-  dhtKitchen.begin();
-  dhtBedroom.begin();
-}
-
-
-String getHumidLivingroom()
+// Livingroom
+String getHumidLivingroom(DHT* dhtLivingroom)
 {
   String Humid = "Humid livingroom = ";
-  Humid += String(dhtLivingroom.readHumidity());
+  Humid += String(dhtLivingroom->readHumidity());
   return Humid;
 }
 
 
-
-
-String getHumidKitchen()
+// Kitchen
+String getHumidKitchen(DHT* dhtKitchen)
 {
   String Humid = "Humid kitchen = ";
-  Humid += String(dhtKitchen.readHumidity());
+  Humid += String(dhtKitchen->readHumidity());
   return Humid;
 }
 
 
-
-
-String getHumidBedroom()
+// Bedroom
+String getHumidBedroom(DHT* dhtBedroom)
 {
   String Humid = "Humid bedroom = ";
-  Humid += String(dhtBedroom.readHumidity());
+  Humid += String(dhtBedroom->readHumidity());
   return Humid;
 }

@@ -1,39 +1,28 @@
 #include "Climate/climate.h"
 
-DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
-DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
-DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
-
-void setupTemp()
-{
-  dhtLivingroom.begin();
-  dhtKitchen.begin();
-  dhtBedroom.begin();
-}
-
 
 // Livingroom
-String getTempLivingroom()
+String getTempLivingroom(DHT* dhtLivingroom)
 {
   String Temp = "Temp livinroom = ";
-  Temp +=  String(dhtLivingroom.readTemperature());
+  Temp +=  String(dhtLivingroom->readTemperature());
   return Temp;
 }
 
 
 // Kitchen
-String getTempKitchen()
+String getTempKitchen(DHT* dhtKitchen)
 {
   String Temp = "Temp kitchen = ";
-  Temp +=  String(dhtKitchen.readTemperature());
+  Temp +=  String(dhtKitchen->readTemperature());
   return Temp;
 }
 
 
 // Bedroom
-String getTempBedroom()
+String getTempBedroom(DHT* dhtBedroom)
 {
   String Temp = "Temp bedroom = ";
-  Temp +=  String(dhtBedroom.readTemperature());
+  Temp +=  String(dhtBedroom->readTemperature());
   return Temp;
 }
