@@ -11,7 +11,7 @@ unsigned long lastMillisPub = 0;
 unsigned long MillisPubInterval = 20000;
 
 unsigned long lastMillisCheck = 0;
-unsigned long MillisCheckInterval = 50000;
+unsigned long MillisCheckInterval = 5000;
 
 
 int setKitchenTemp = 24;
@@ -67,7 +67,6 @@ void loopClimate()
     mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom(&dhtBedroom));
     // Publish Airquality
     mqttClient.publish("home/climate/status/airquality", getMQ2());
-    Serial.println("publish");
 
   }
 
@@ -83,7 +82,6 @@ void loopClimate()
     checkBedroomHumid(setBedroomHumid, &dhtBedroom);
     // Chcek Air
     checkLivingroomHumid();
-    Serial.println("check");
 
   }
 
