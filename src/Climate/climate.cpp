@@ -25,8 +25,7 @@ void setupClimate()
   char clientId[] = "House_Cilmate";
   setupMQTT(clientId, onMessageReceived);
 
-#pragma region Subscribtions
-
+  //Subsribtions
   mqttClient.subscribe("home/climate/servo");
   mqttClient.subscribe("home/alarm/arm");
   // SetKitchen
@@ -39,8 +38,6 @@ void setupClimate()
   mqttClient.subscribe("home/climate/bedroom/settemp");
   mqttClient.subscribe("home/climate/bedroom/sethumid");
 
-#pragma endregion
-
   dhtLivingroom.begin();
   dhtKitchen.begin();
   dhtBedroom.begin();
@@ -52,20 +49,18 @@ void loopClimate()
 {
   mqttClient.loop();
 
-#pragma region Publish component data
-
   if (millis() - lastMillis > 20000) {
     lastMillis = millis();
-    //livingroom
+    // Publish livingroom
     mqttClient.publish("home/climate/status/livingroom/temp", getTempLivingroom(&dhtLivingroom));
     mqttClient.publish("home/climate/status/livingroom/humid", getHumidLivingroom(&dhtLivingroom));
-    //kithcen
+    // Publish kithcen
     mqttClient.publish("home/climate/status/kitchen/temp", getTempKitchen(&dhtKitchen));
     mqttClient.publish("home/climate/status/kitchen/humid", getHumidKitchen(&dhtKitchen));
-    //bedroom
+    // Publish bedroom
     mqttClient.publish("home/climate/status/bedroom/temp", getTempBedroom(&dhtBedroom));
     mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom(&dhtBedroom));
-    // Airquality
+    // Publish Airquality
     mqttClient.publish("home/climate/status/airquality", getMQ2());
 
     // Check Temp
@@ -76,15 +71,10 @@ void loopClimate()
     checkLivingroomHumid(setLivingroomHunid, &dhtLivingroom);
     checkKitchenHumid(setKitchenHumid, &dhtKitchen);
     checkBedroomHumid(setBedroomHumid, &dhtBedroom);
-
     // Chcek Air
     checkLivingroomHumid();
 
   }
-#pragma endregion
-
-
-
 }
 
 
