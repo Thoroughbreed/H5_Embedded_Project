@@ -17,11 +17,20 @@ void setupTemp();
 void setupHumid();
 void loopClimate();
 void onMessageReceived(String& topic, String& payload);
+
 String getTempLivingroom(DHT* dhtLivingroom);
 String getHumidLivingroom(DHT* dhtLivingroom);
 String getTempKitchen(DHT* dhtKitchen);
 String getHumidKitchen(DHT* dhtKitchen);
 String getTempBedroom(DHT* dhtBedroom);
 String getHumidBedroom(DHT* dhtBedroom);
+
 String getMQ2();
-void checkClimate(int setclimate);
+
+void checkLivingroomTemp(int setLivingroomTemp, DHT* dhtLivingroom);
+void checkKitchenTemp(int setKitchenTemp, DHT* dhtKitchen);
+void checkBedroomTemp(int setBedroomTemp, DHT* dhtBedroom);
+
+void checkLivingroomHumid(int setLivingroomHunid, DHT* dhtLivingroom);
+void checkKitchenHumid(int setKitchenHumid, DHT* dhtKitchen);
+void checkBedroomHumid(int setBedroomHumid, DHT* dhtBedroom);
