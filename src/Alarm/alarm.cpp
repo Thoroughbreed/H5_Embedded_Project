@@ -1,7 +1,8 @@
 #include "alarm.h"
 
-const char* clientId = MQTT_ALARM_CLIENT_ID;
 extern MQTTClient mqttClient;
+
+const char* clientId = MQTT_ALARM_CLIENT_ID;
 int alarmArmedState = 0;
 bool alarmActive = false;
 unsigned long checkSensorMillis = 0;
@@ -12,13 +13,13 @@ void setupAlarm() {
     setupPIR();
     setupREED();
     
-    while (!setupWiFi());
-    while (!setupMQTT((char*)clientId, onMessageReceived));
-    mqttClient.subscribe(MQTT_ARM_TOPIC);
+    setupConnectivity();
 }
 
 void loopAlarm() {
     mqttClient.loop();
+    ensureConnectivity();
+
     if (alarmArmedState == ALARM_DISARMED) return;
     if (alarmActive) return;
 
@@ -27,13 +28,26 @@ void loopAlarm() {
         checkSensors();
     }
 }
+void setupConnectivity() {
+    mqttClient.setWill("home/log/system", "Alarm system disconnected", false, 1);
+
+    while (!setupWiFi());
+    while (!setupMQTT((char*)clientId, onMessageReceived));
+    mqttClient.subscribe(MQTT_ARM_TOPIC);
+}
+void ensureConnectivity() {
+    if (WiFi.status() == WL_CONNECTED) return;
+    if (mqttClient.connected()) return;
+    
+    setupConnectivity();
+}
 
 void checkSensors() {
-    bool anyMovement = checkPIR();
-    bool doorOpened = false;
+    bool anyMovement = false;
+    bool doorOpened = checkREED();
 
     if (alarmArmedState == ALARM_FULLY_ARMED) {
-        doorOpened = checkREED();
+        anyMovement = checkPIR();
     }
     if (anyMovement || doorOpened) activateAlarm();
 
@@ -41,7 +55,7 @@ void checkSensors() {
 
 void activateAlarm() {
     alarmActive = true;
-    mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "1", true, 1);
+    mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "1", true, 2);
 }
 void deactivateAlarm() {
     alarmActive = false;
