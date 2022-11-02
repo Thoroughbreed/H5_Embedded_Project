@@ -3,9 +3,7 @@
 extern MQTTClient mqttClient;
 extern WiFiClient wifiClient;
 
-DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
-DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
-DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
+
 
 unsigned long lastMillis = 0;
 
@@ -47,9 +45,8 @@ void setupClimate()
 
 #pragma endregion
 
-  dhtLivingroom.begin();
-  dhtKitchen.begin();
-  dhtBedroom.begin();
+  setupTemp();
+  setupHumid();
   setupMyservo();
 
 }
@@ -60,20 +57,18 @@ void loopClimate()
 
 #pragma region Publish component data
 
-  if (millis() - lastMillis > 10000) {
+  if (millis() - lastMillis > 20000) {
     lastMillis = millis();
     //livingroom
     mqttClient.publish("home/climate/status/livingroom/temp", getTempLivingroom());
     mqttClient.publish("home/climate/status/livingroom/humid", getHumidLivingroom());
-    delay(1000);
     //kithcen
     mqttClient.publish("home/climate/status/kitchen/temp", getTempKitchen());
     mqttClient.publish("home/climate/status/kitchen/humid", getHumidKitchen());
-    delay(1000);
     //bedroom
     mqttClient.publish("home/climate/status/bedroom/temp", getTempBedroom());
     mqttClient.publish("home/climate/status/bedroom/humid", getHumidBedroom());
-    delay(1000);
+    // Airquality
     mqttClient.publish("home/climate/status/airquality", getMQ2());
 
   }
@@ -139,78 +134,5 @@ void onMessageReceived(String& topic, String& payload) {
 }
 
 
-void checkClimate(int setclimate)
-{
-  if (setclimate == (setclimate + hysterase))
-  {
-    setMyservo(20);
-  }
-  if (setclimate == (setclimate - hysterase))
-  {
-    alarmOnServoClose();
-
-  }
-}
-
-
-
-#pragma region Read Components
-
-String getMQ2()
-{
-	int ppm = analogRead(AIR);
-  return String(ppm);
-}
-
-
-
-// Livingroom
-String getTempLivingroom()
-{
-  String Temp = "Temp livinroom = ";
-  Temp +=  String(dhtLivingroom.readTemperature());
-  return Temp;
-}
-
-String getHumidLivingroom()
-{
-  String Humid = "Humid livingroom = ";
-  Humid += String(dhtLivingroom.readHumidity());
-  return Humid;
-}
-
-
-// Kitchen
-String getTempKitchen()
-{
-  String Temp = "Temp kitchen = ";
-  Temp +=  String(dhtKitchen.readTemperature());
-  return Temp;
-}
-
-String getHumidKitchen()
-{
-  String Humid = "Humid kitchen = ";
-  Humid += String(dhtKitchen.readHumidity());
-  return Humid;
-}
-
-
-// Bedroom
-String getTempBedroom()
-{
-  String Temp = "Temp bedroom = ";
-  Temp +=  String(dhtBedroom.readTemperature());
-  return Temp;
-}
-
-String getHumidBedroom()
-{
-  String Humid = "Humid bedroom = ";
-  Humid += String(dhtBedroom.readHumidity());
-  return Humid;
-}
-
-#pragma endregion
 
 

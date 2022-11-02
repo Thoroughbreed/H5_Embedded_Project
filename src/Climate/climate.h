@@ -13,6 +13,8 @@
 #define AIR A1
 
 void setupClimate();
+void setupTemp();
+void setupHumid();
 void loopClimate();
 void onMessageReceived(String& topic, String& payload);
 String getTempLivingroom();
