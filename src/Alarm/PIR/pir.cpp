@@ -1,8 +1,30 @@
 #include "pir.h"
 
+const byte inDoorsPirPins[] = { 6 }; 
+const byte outDoorsPirPins[] = { 5 }; 
+
 void setupPIR() {
-    pinMode(PIR_PIN, INPUT);
+    for (int pin : inDoorsPirPins) {
+        pinMode(pin, INPUT);
+    }
+    for (int pin : outDoorsPirPins) {
+        pinMode(pin, INPUT);
+    }
 }
-bool checkPIR() {
-    return digitalRead(PIR_PIN);
+bool checkOutDoorPIR() {
+    for (int pin : outDoorsPirPins) {
+        bool result = digitalRead(pin);
+        Serial.println("digitalRead(" + String(pin) + "): " + String(result));
+        if (result) return true;
+    }
+    return false;
+}
+bool checkInDoorPIR() {
+    for (int pin : inDoorsPirPins) {
+        bool result = digitalRead(pin);
+        Serial.println("digitalRead(" + String(pin) + "): " + String(result));
+        if (result) return true;
+    }
+
+    return false;
 }

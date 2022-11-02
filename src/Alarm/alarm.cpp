@@ -38,19 +38,21 @@ void setupConnectivity() {
 void ensureConnectivity() {
     if (WiFi.status() == WL_CONNECTED) return;
     if (mqttClient.connected()) return;
-    
+
     setupConnectivity();
 }
 
 void checkSensors() {
-    bool anyMovement = false;
+    bool anyMovementOutDoors = false;
+    bool anyMovementInDoors = false;
     bool doorOpened = checkREED();
 
+    anyMovementOutDoors = checkOutDoorPIR();
     if (alarmArmedState == ALARM_FULLY_ARMED) {
-        anyMovement = checkPIR();
+        anyMovementInDoors = checkInDoorPIR();
     }
-    if (anyMovement || doorOpened) activateAlarm();
 
+    if (anyMovementOutDoors || anyMovementInDoors || doorOpened) activateAlarm();
 }
 
 void activateAlarm() {
