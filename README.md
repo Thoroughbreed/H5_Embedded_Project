@@ -61,10 +61,10 @@
 | Arduino MKR1010     | 3      | Microcontroller                                              |            |
 | DHT11               | 3      | Temperature and humidity sensor                              | Climate    |
 | MQ-2                | 1      | Gas/air quality sensor                                       | Climate    |
-| Servo               | 1      | Controlling window and garage door                           | Climate    |
+| Servo               | 2      | Controlling window and garage door                           | Climate    |
 | REED switch         | 1      | Intrusion detection, front door                              | Alarm      |
 | HC-SR501 PIR sensor | 2      | Intrusion (motion) detection, living room                    | Alarm      |
-| Ping-dims           | 1      | Automatic doors                                              | Home/entry |
+| HC-SR04 Ultrasound  | 1      | Automatic doors                                              | Home/entry |
 | RFID reader         | 1      | Entry system                                                 | Home/entry |
 | 4x4 Keypad          | 1      | Entry system                                                 | Home/entry |
 | 128x64 OLED         | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
@@ -148,6 +148,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
+![Home flowchart](/homeController_chart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## MQTT Topics
