@@ -66,7 +66,7 @@ void initMQTT()
 {
     logMessage = "";
     critMessage = "";
-    mqttClient.setWill("SYSTEM_LOG", "Home controller lost connection!", false, 1);
+    mqttClient.setWill(PUB_SYSTEM_SYSTEM, "Home controller lost connection!", false, 1);
 
     if (!setupMQTT(CLIENTID, onMessageReceived))
     {
@@ -82,12 +82,13 @@ void initMQTT()
             delay(999);
         }
     }
-    mqttClient.publish(PUB_SYSTEM_LOG, "Home controller is connected ...", false, 0);
+    logInfo("home", "Home controller is connected ...");
 
     mqttClient.subscribe(ALARM_TOP);
     mqttClient.subscribe(SUB_SYSTEM_LOG);
     mqttClient.subscribe(ALARM_STAT);
     mqttClient.subscribe(SUB_SYSTEM_CRIT);
+    mqttClient.subscribe(SUB_SYSTEM_SYSTEM);
 }
 
 void setupHome()
@@ -160,12 +161,8 @@ void updateOLED(int interval, bool message)
 
 void onMessageReceived(String& topic, String& payload)
 {
-    Serial.println(topic);
-    Serial.println(payload);
-    Serial.println("Bofa");
     if (topic == ALARM_TOP)
     {
-        // TODO Do something!
         // Alarm halløj
         if (payload == "1")
         {
@@ -174,17 +171,22 @@ void onMessageReceived(String& topic, String& payload)
             flashWhite(75);
         }
     }
-    if (topic == SUB_SYSTEM_LOG)
+    if (topic.startsWith("home/log/info"))
     {
         // Vis log
         logMessage = payload;
         flashWhite(25);
     }
-    if (topic == SUB_SYSTEM_CRIT)
+    if (topic.startsWith("home/log/critical"))
     {
         // Vis critical log
         critMessage = payload;
         flashWhite(50);
+    }
+    if (topic.startsWith("home/log/system"))
+    {
+        critMessage = payload;
+        flashWhite(100);
     }
     if (topic == ALARM_STAT)
     {
@@ -255,7 +257,6 @@ void pingDoors(int interval)
 void readChip()
 {
     if (RFIDActive)
-//    if (false)
     {
         if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
         {
@@ -272,7 +273,6 @@ void readChip()
         {
             String payload = "RFID UID: ";
             payload += newUid;
-            mqttClient.publish("home/log/debug", payload);
             uid = newUid;
             if (newUid == SECRET_RFID)
             {
@@ -286,7 +286,7 @@ void readChip()
             {
                 messageToDisplay = "ACCESS DENIED";
                 incomingMessage = true;
-                mqttClient.publish(PUB_SYSTEM_LOG, "Wrong chip at front door");
+                logInfo("home", "Wrong chip at front door");
             }
         }
     }
@@ -340,12 +340,10 @@ void keyIn()
             case 'C':
                 messageToDisplay = logMessage;
                 incomingMessage = true;
-                // TODO NEEDS TEST
                 break;
             case 'D':
                 messageToDisplay = critMessage;
                 incomingMessage = true;
-                // TODO NEEDS TEST
                 break;
             case '#':
                 pwdCount = 0;
@@ -386,13 +384,13 @@ bool comparePassword()
     if (pwdTest[0] == pwd[0] && pwdTest[1] == pwd[1] && pwdTest[2] == pwd[2] && pwdTest[3] == pwd[3])
     {
         pwdTest[0] = 0;
-        mqttClient.publish(PUB_SYSTEM_LOG, "Password OK");
+        logInfo("home", "Password OK");
         mqttClient.publish(ALARM_STAT, "0");
-        mqttClient.publish(PUB_SYSTEM_LOG, "Alarm disabled");
+        logInfo("home", "Alarm disabled");
         RFIDActive = false;
         return true;
     }
-    mqttClient.publish(PUB_SYSTEM_LOG "Wrong password at entry!");
+    logCritical("home", "Wrong password at entry!");
     return false;
 }
 
