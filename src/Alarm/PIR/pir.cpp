@@ -14,7 +14,6 @@ void setupPIR() {
 bool checkOutDoorPIR() {
     for (int pin : outDoorsPirPins) {
         bool result = digitalRead(pin);
-        Serial.println("digitalRead(" + String(pin) + "): " + String(result));
         if (result) return true;
     }
     return false;
@@ -22,7 +21,6 @@ bool checkOutDoorPIR() {
 bool checkInDoorPIR() {
     for (int pin : inDoorsPirPins) {
         bool result = digitalRead(pin);
-        Serial.println("digitalRead(" + String(pin) + "): " + String(result));
         if (result) return true;
     }
 
