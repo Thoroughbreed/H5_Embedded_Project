@@ -32,7 +32,7 @@ void setupConnectivity() {
     mqttClient.setWill("home/log/system", "Alarm system disconnected", false, 1);
 
     while (!setupWiFi());
-    while (!setupMQTT((char*)clientId, onMessageReceived));
+    while (!setupMQTT((char*)clientId, onMessageReceivedAlarm));
     mqttClient.publish("home/log/system", "Alarm system is connected");
     mqttClient.subscribe(MQTT_ARM_TOPIC);
 }
@@ -81,7 +81,7 @@ void setArmed(String payload) {
     }
 }
 
-void onMessageReceived(String &topic, String &payload) {
+void onMessageReceivedAlarm(String &topic, String &payload) {
     Serial.println("Incoming: " + topic + " Payload: " + payload);
     if (topic == MQTT_ARM_TOPIC) {
         if (alarmActive && payload.toInt() == ALARM_DISARMED) {
