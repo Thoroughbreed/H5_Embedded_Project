@@ -28,7 +28,7 @@ void setupClimate()
 
   setupWiFi();
   char clientId[] = "House_Cilmate";
-  setupMQTT(clientId, onMessageReceived);
+  setupMQTT(clientId, onMessageReceivedClimate);
 
   //Subsribtions
   mqttClient.subscribe("home/climate/servo");
@@ -89,7 +89,7 @@ void loopClimate()
 
 
 
-void onMessageReceived(String& topic, String& payload) {
+void onMessageReceivedClimate(String& topic, String& payload) {
   //Serial.println("Incoming: " + topic + " Payload: " + payload);
 
   // servo

@@ -78,7 +78,7 @@ void connectivityCheck();
 void readChip();
 
 //void initmqttSub(String topic);
-void onMessageReceived(String& topic, String& payload);
+void onMessageReceivedHome(String& topic, String& payload);
 
 void updateOLED(int interval, bool screensaver = true);
 void printOLED(int x, int y, String text, int textSize = 1);

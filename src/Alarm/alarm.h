@@ -27,4 +27,4 @@ void deactivateAlarm();
 
 void checkSensors();
 
-void onMessageReceived(String &topic, String &payload);
+void onMessageReceivedAlarm(String &topic, String &payload);
