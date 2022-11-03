@@ -41,12 +41,12 @@
 </details>
 
 ## Requirements
-- [ ] Configure several different peripherals
-- [ ] Read values from sensors in a sensible manner
-- [ ] Control various aspects of the intelligent house
-- [ ] Configure some sort of HID (display, keypad etc.)
-- [ ] Present measurements for the user in a user-friendly manner
-- [ ] Have multiple boards communicate
+- [X] Configure several different peripherals
+- [X] Read values from sensors in a sensible manner
+- [X] Control various aspects of the intelligent house
+- [X] Configure some sort of HID (display, keypad etc.)
+- [X] Present measurements for the user in a user-friendly manner
+- [X] Have multiple boards communicate
 - [ ] Create an endpoint for user friendly remote control
 <p align="right">(<a href="#top">back to top</a>)</p>
 
