@@ -103,17 +103,17 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 ## Home
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-| 5V          | POWER         | HC-SR501 PIR 1 | 5V   |
-| 5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
-| 5V          | POWER         | HC-SR501 PIR 2 | 5V   |
-| 6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
-| 7           |               | REED Relay     | 3.3V |
+|             |               |                |      |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| 5V          | POWER         | HC-SR501 PIR 1 | 5V   |
+| 5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
+| 5V          | POWER         | HC-SR501 PIR 2 | 5V   |
+| 6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
+| 7           |               | REED Relay     | 3.3V |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
