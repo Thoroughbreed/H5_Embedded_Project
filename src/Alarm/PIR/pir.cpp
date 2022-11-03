@@ -1,7 +1,7 @@
 #include "pir.h"
 
-const byte inDoorsPirPins[] = { 6 }; 
-const byte outDoorsPirPins[] = { 5 }; 
+const byte inDoorsPirPins[] = { 6 };
+const byte outDoorsPirPins[] = { 5 };
 
 void setupPIR() {
     for (int pin : inDoorsPirPins) {

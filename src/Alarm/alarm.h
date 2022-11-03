@@ -16,12 +16,14 @@
 
 void setupAlarm();
 void loopAlarm();
-void setArmed(String payload);
-void onMessageReceived(String &topic, String &payload);
-
-void checkSensors();
-void activateAlarm();
-void deactivateAlarm();
 
 void setupConnectivity();
 void ensureConnectivity();
+
+void setArmed(String payload);
+void activateAlarm();
+void deactivateAlarm();
+
+void checkSensors();
+
+void onMessageReceived(String &topic, String &payload);

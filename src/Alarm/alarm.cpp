@@ -15,7 +15,6 @@ void setupAlarm() {
     
     setupConnectivity();
 }
-
 void loopAlarm() {
     mqttClient.loop();
     ensureConnectivity();
@@ -28,6 +27,7 @@ void loopAlarm() {
         checkSensors();
     }
 }
+
 void setupConnectivity() {
     mqttClient.setWill("home/log/system", "Alarm system disconnected", false, 1);
 
