@@ -101,9 +101,34 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 # Pin layout
 
 ## Home
-| Arduino pin | Component pin | Component name | Volt |
-| :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| Arduino pin | Component pin | Component name     | Volt                   |
+|:------------|:--------------|:-------------------|:-----------------------|
+| 5V          | VCC           | HC-SR04 Ultrasound | 5V                     |
+| D6          | Trigger       | HC-SR04            |                        |
+| D5          | Echo          | HC-SR04            | 3,3v (voltage divider) |
+| GND         | GND           | HC-SR04            |                        |
+| SDA (D11)   | SDA           | SSD1306 OLED       |                        |
+| SCL (D12)   | SCL           | SSD1306            |                        |
+| 5V          | VCC           | SSD1306            | 5V                     |
+| GND         | GND           | SSD1306            |                        |
+| D7          | RST           | RC522 RFID reader  |                        |
+| D13         | SDA (SS)      | RC522              |                        |
+| SCK (D9)    | SCK           | RC522              |                        |
+| MOSI (D8)   | MOSI          | RC522              |                        |
+| MISO (D10)  | MISO          | RC522              |                        |
+| VCC         | VCC           | RC522              | 3,3V                   |   
+| GND         | GND           | RC522              |                        |  
+| D14         | SIG           | SG90 Servo         |                        |  
+| VCC         | VCC           | SG90               | 3,3V                   |  
+| GND         | GND           | SG90               |                        |  
+| A3/D18      | 1             | 4x4 Matrix keypad  |                        |  
+| A4/D19      | 2             | Keypad             |                        |  
+| A5/D20      | 3             | Keypad             |                        |  
+| A6/D21      | 4             | Keypad             |                        |  
+| D0          | 5             | Keypad             |                        |  
+| D1          | 6             | Keypad             |                        |  
+| D2          | 7             | Keypad             |                        |  
+| D3          | 8             | Keypad             |                        |  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
