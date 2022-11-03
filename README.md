@@ -125,6 +125,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
+![alarm flowchart](/FlowChart_Alarm.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
@@ -146,11 +147,11 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 ## Roadmap
 - [ ] Create a custom mqtt-broker with API and database
-- [ ] Make a fully functional alarm/control system
-- [ ] Integrate access control (RFID/NFC)
-- [ ] Make it easily expandable
-- [ ] Integrate several different devices
-- [ ] Create a full three-layered log <sup>3</sup>
+- [X] Make a fully functional alarm/control system
+- [X] Integrate access control (RFID/NFC)
+- [X] Make it easily expandable
+- [X] Integrate several different devices
+- [X] Create a full three-layered log <sup>3</sup>
 - [ ] Create mobile frontend to control the system
 - [ ] Create frontend to control system and view status, historical data
 
