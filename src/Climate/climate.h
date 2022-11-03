@@ -20,7 +20,7 @@ void keepConnection();
 void setupConnections();
 
 void loopClimate();
-void onMessageReceived(String& topic, String& payload);
+void onMessageReceivedClimate(String& topic, String& payload);
 
 String getTempLivingroom(DHT* dhtLivingroom);
 String getHumidLivingroom(DHT* dhtLivingroom);
