@@ -158,8 +158,10 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 | home/alarm/alarm                     | Internal | Pub     |
 | home/climate/status/#                | External | Sub     |
 | home/climate/status/[section]/[type] | Internal | Pub     |
+| home/climate/servo                   | External | Pub     |
 | home/log/[logLevel]/[type]           | Internal | Pub     |
 | home/log/#                           | External | Sub     |
+
 
 ## Roadmap
 - [ ] Create a custom mqtt-broker with API and database
