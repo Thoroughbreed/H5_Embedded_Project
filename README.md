@@ -143,6 +143,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
+![Climate flowchart](/H5.Inteligentehus.Climate.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
