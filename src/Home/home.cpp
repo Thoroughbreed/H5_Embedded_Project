@@ -57,8 +57,6 @@ void initServo()
 {
     pinMode(DOORSERVO, OUTPUT);
     doorServo.attach(DOORSERVO);
-    doorServo.write(90);
-    delay(123);
     doorServo.write(0);
 }
 
@@ -103,6 +101,7 @@ void setupHome()
     timeClient.begin();
     SPI.begin();
     mfrc522.PCD_Init();
+    pinMode(RST_PIN, OUTPUT);
     initWireless();
     getTime(0);
     timeClient.setTimeOffset(3600);
@@ -254,44 +253,6 @@ void pingDoors(int interval)
     }
 }
 
-void readChip()
-{
-    if (RFIDActive)
-    {
-        if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
-        {
-            delay(50);
-            return;
-        }
-        String newUid = "";
-        for (byte i = 0; i < mfrc522.uid.size; i++)
-        {
-            newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
-            newUid += mfrc522.uid.uidByte[i], HEX;
-        }
-        if (newUid != uid)
-        {
-            String payload = "RFID UID: ";
-            payload += newUid;
-            uid = newUid;
-            if (newUid == SECRET_RFID)
-            {
-                actionAlarm(0); // 0 Disables alarm
-                messageToDisplay = "Welcome home :)";
-                incomingMessage = true;
-                uid = "";
-                RFIDActive = false;
-            }
-            else
-            {
-                messageToDisplay = "ACCESS DENIED";
-                incomingMessage = true;
-                logInfo("home", "Wrong chip at front door");
-            }
-        }
-    }
-}
-
 void connectivityCheck()
 {
     if (wifiClient.connected()) return;
@@ -302,6 +263,52 @@ void connectivityCheck()
 #pragma endregion
 
 #pragma region Keypad and entry
+
+void readChip()
+{
+    if (RFIDActive)
+    {
+        digitalWrite(RST_PIN, 1);
+        ledRed();
+    }
+    if (!RFIDActive)
+    {
+        digitalWrite(RST_PIN, 0);
+        ledBlue();
+    }
+
+    if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
+    {
+        delay(50);
+        return;
+    }
+    String newUid = "";
+    for (byte i = 0; i < mfrc522.uid.size; i++)
+    {
+        newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
+        newUid += mfrc522.uid.uidByte[i], HEX;
+    }
+    if (newUid != uid)
+    {
+        String payload = "RFID UID: ";
+        payload += newUid;
+        uid = newUid;
+        if (newUid == SECRET_RFID)
+        {
+            actionAlarm(0); // 0 Disables alarm
+            messageToDisplay = "Welcome home :)";
+            incomingMessage = true;
+            uid = "";
+            RFIDActive = false;
+        }
+        else
+        {
+            messageToDisplay = "ACCESS DENIED";
+            incomingMessage = true;
+            logInfo("home", "Wrong chip at front door");
+        }
+    }
+}
 
 void checkPassword(char key)
 {
