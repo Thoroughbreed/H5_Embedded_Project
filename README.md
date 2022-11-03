@@ -12,8 +12,6 @@
 <details>
   <summary>Table of Contents</summary>
 
-- [Intelligent house](#intelligent-house)
-      - [H5 Embedded group project](#h5-embedded-group-project)
 - [Case](#case)
 - [Requirements](#requirements)
 - [Architecture diagram](#architecture-diagram)
@@ -61,10 +59,11 @@ Build master and slave units for the *Intelligent house* - the master unit must 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Architecture diagram
-![architecture diagram](/Docs/Architecture-Diagram.drawio.png)
+![architecture diagram](/Docs/Architecture_Diagram.png)
 
 # Roadmap
-- [ ] Create a custom mqtt-broker with API and database
+- [X] Create a custom mqtt-broker with API ~and database~
+  - [ ] Database will be created at a later time
 - [X] Make a fully functional alarm/control system
 - [X] Integrate access control (RFID/NFC)
 - [X] Make it easily expandable
@@ -104,7 +103,11 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 ## Home
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| 5V          | POWER         | HC-SR501 PIR 1 | 5V   |
+| 5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
+| 5V          | POWER         | HC-SR501 PIR 2 | 5V   |
+| 6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
+| 7           |               | REED Relay     | 3.3V |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
@@ -172,29 +175,30 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
-![alarm hipo diagram](/Docs/Alarm_HIPO.drawio.png)
+![alarm hipo diagram](/Docs/Alarm_HIPO.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
-![Climate Hipo diagram](/Docs/H5.Inteligenthus.Climate.hippo.drawio.png)
+![Climate Hipo diagram](/Docs/Climate_HIPO.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
+![Climate Hipo diagram](/Docs/HomeController_HIPO.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 # Flowcharts
 
 ## Alarm
-![alarm flowchart](/Docs/Alarm_FlowChart.drawio.png)
+![alarm flowchart](/Docs/Alarm_Flowchart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
-![Climate flowchart](/Docs/H5.Inteligentehus.Climate.drawio.png)
+![Climate flowchart](/Docs/Climate_Flowchart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
-![Home flowchart](/Docs/homeController_chart.png)
+![Home flowchart](/Docs/HomeController_Flowchart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
