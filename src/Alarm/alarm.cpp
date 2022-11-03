@@ -33,6 +33,7 @@ void setupConnectivity() {
 
     while (!setupWiFi());
     while (!setupMQTT((char*)clientId, onMessageReceived));
+    mqttClient.publish("home/log/system", "Alarm system is connected");
     mqttClient.subscribe(MQTT_ARM_TOPIC);
 }
 void ensureConnectivity() {
@@ -60,17 +61,21 @@ void activateAlarm() {
     mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "1", true, 2);
 }
 void deactivateAlarm() {
+    logCritical("alarm", "Alarm: Reset");
     alarmActive = false;
     mqttClient.publish(MQTT_ACTIVATE_ALARM_TOPIC, "0", true, 1);
 }
 void setArmed(String payload) {
     if (payload.toInt() == ALARM_DISARMED) {
+        logInfo("alarm", "Alarm: Disarmed");
         setRGB(0, 255, 0);
         alarmArmedState = 0;
     } else if (payload.toInt() == ALARM_PARTIALLY_ARMED) {
+        logInfo("alarm", "Alarm: Partially armed");
         setRGB(255, 255, 0);
         alarmArmedState = 1;
     } else if (payload.toInt() == ALARM_FULLY_ARMED) {
+        logInfo("alarm", "Alarm: Fully armed");
         setRGB(255, 0, 0);
         alarmArmedState = 2;
     }

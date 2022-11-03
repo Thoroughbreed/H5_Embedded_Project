@@ -11,18 +11,26 @@ void setupPIR() {
         pinMode(pin, INPUT);
     }
 }
+
 bool checkOutDoorPIR() {
     for (int pin : outDoorsPirPins) {
         bool result = digitalRead(pin);
-        if (result) return true;
+        
+        if (result) {
+            logCritical("alarm", "Alarm: Alarm triggered by movement outside the house!");
+            return true;
+        }
     }
     return false;
 }
 bool checkInDoorPIR() {
     for (int pin : inDoorsPirPins) {
         bool result = digitalRead(pin);
-        if (result) return true;
-    }
 
+        if (result) {
+            logCritical("alarm", "Alarm: Alarm triggered by movement inside the house!");
+            return true;
+        }
+    }
     return false;
 }

@@ -1,6 +1,7 @@
 #include "../Shared/RGB/rgb.h"
 #include "../Shared/WiFi/wifi.h"
 #include "../Shared/MQTT/mqtt.h"
+#include "../Shared/Logging/log.h"
 #include "PIR/pir.h"
 #include "REED/reed.h"
 
