@@ -237,7 +237,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 # Contact
 - Peter Hymøller - peterhym21@gmail.com
-  - [Twitter](https://twitter.com/peter_hym)
+  - [![Twitter][twitter-shield-ptr]][twitter-url-ptr]
 - Nicolai Heuck - nicolaiheuck@gmail.com
 - Jan Andreasen - jan@tved.it
   - [![Twitter][twitter-shield]][twitter-url]
@@ -267,3 +267,5 @@ Project Link: [https://github.com/Thoroughbreed/H5_Embedded_Project](https://git
 [license-url]: https://github.com/Thoroughbreed/H5_Embedded_Project/blob/master/LICENSE
 [twitter-shield]: https://img.shields.io/twitter/follow/andreasen_jan?style=social
 [twitter-url]: https://twitter.com/andreasen_jan
+[twitter-shield-ptr]: https://img.shields.io/twitter/follow/peter_hym?style=social
+[twitter-url-ptr]: https://twitter.com/peter_hym
