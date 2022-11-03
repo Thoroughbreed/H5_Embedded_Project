@@ -26,14 +26,19 @@
         <li><a href="#getting-started">Getting started</a></li>
       </ul>
     </li>
-    <li><a href="#flowcharts">Flowcharts</a></li>
+      <li><a href="#hipo-diagrams">HIPO Diagrams</a></li>
        <ul>
-        <li><a href="#hipo-diagram">HIPO Diagram</a></li>
-        <li><a href="#full-chart">Full chart</a></li>
         <li><a href="#alarm">Alarm</a></li>
         <li><a href="#climate">Climate</a></li>
-        <li><a href="#entry">Entry</a></li>
+        <li><a href="#home">Home</a></li>
       </ul>
+    <li><a href="#flowcharts">Flowcharts</a></li>
+       <ul>
+        <li><a href="#alarm-1">Alarm</a></li>
+        <li><a href="#climate-1">Climate</a></li>
+        <li><a href="#home-1">Home</a></li>
+      </ul> 
+    <li><a href="#mqtt-topics">MQTT Topics</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -41,42 +46,44 @@
 </details>
 
 ## Requirements
-- [ ] Configure several different peripherals
-- [ ] Read values from sensors in a sensible manner
-- [ ] Control various aspects of the intelligent house
-- [ ] Configure some sort of HID (display, keypad etc.)
-- [ ] Present measurements for the user in a user-friendly manner
-- [ ] Have multiple boards communicate
+- [X] Configure several different peripherals
+- [X] Read values from sensors in a sensible manner
+- [X] Control various aspects of the intelligent house
+- [X] Configure some sort of HID (display, keypad etc.)
+- [X] Present measurements for the user in a user-friendly manner
+- [X] Have multiple boards communicate
 - [ ] Create an endpoint for user friendly remote control
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Components
-| Device | Amount | Function | Controller |
-|-|-|-|-|
-| Arduino MKR1010 | 3 | Microcontroller | | 
-| DHT11 |  | Temperature and humidity sensor | Climate |
-| MQ-2 |  | Gas/air quality sensor | Climate |
-| Servo |  | Controlling window and garage door | Climate |
-| REED switch |  | Intrusion detection, front door | Alarm |
-| HC-SR501 PIR sensor |  | Intrusion (motion) detection, living room | Alarm |
-| Ping-dims | | Automatic doors | Home/entry |
-| RFID reader |  | Entry system | Home/entry |
-| 4x4 Keypad |  | Entry system | Home/entry |
-| 128x64 OLED | 1 | Peripheral display around the house (time, temp, status etc.| Home/entry |
+| Device              | Amount | Function                                                     | Controller |
+| ------------------- | ------ | ------------------------------------------------------------ | ---------- |
+| Arduino MKR1010     | 3      | Microcontroller                                              |            |
+| DHT11               | 3      | Temperature and humidity sensor                              | Climate    |
+| MQ-2                | 1      | Gas/air quality sensor                                       | Climate    |
+| Servo               | 1      | Controlling window and garage door                           | Climate    |
+| REED switch         | 1      | Intrusion detection, front door                              | Alarm      |
+| HC-SR501 PIR sensor | 2      | Intrusion (motion) detection, living room                    | Alarm      |
+| Ping-dims           | 1      | Automatic doors                                              | Home/entry |
+| RFID reader         | 1      | Entry system                                                 | Home/entry |
+| 4x4 Keypad          | 1      | Entry system                                                 | Home/entry |
+| 128x64 OLED         | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
 * The system is built for expansion, there is very little work in attaching multiple devices to the system, that could be more intrusion sensors, a buzzer, multiple displays etc.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Libraries
-| Name | Version | Component |
-|-|-|-|
-| Adafruit SSD1306 | 2.5.0 | OLED display
-| DS3231 |1.0.7 | RTC
-| DHT sensor library | 1.4.3 | DHT11 sensor
-| Keypad |3.1.1 | 4x4 keypad
-| MFRC522 | 1.1.8 | RFID reader
-| Servo |1.1.6 | Servo motors
-| Wire | 1.8.2 | I<sup>2</sup>C communication
-| SPI | 1.9.8 | SPI communication
+| Name               | Version | Component                    |
+| ------------------ | ------- | ---------------------------- |
+| Adafruit SSD1306   | 2.5.7   | OLED display                 |
+| DHT sensor library | 1.4.4   | DHT11 sensor                 |
+| NTPClient          | 3.2.1   |                              |
+| Servo              | 1.1.8   | Servo motors                 |
+| WiFiNINA           | 1.8.13  |                              |
+| MQTT               | 2.5.0   |                              |
+| Keypad             | 3.1.1   | 4x4 keypad                   |
+| MFRC522            | 1.4.10  | RFID reader                  |
+| Wire               | 1.8.2   | I<sup>2</sup>C communication |
+| SPI                | 1.9.8   | SPI communication            |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Case
@@ -116,24 +123,32 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# Flowcharts
-
-## HIPO Diagram
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Full chart
+# HIPO Diagrams
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
+![alarm hipo diagram](/Alarm_HIPO.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Entry
+## Home
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# MQTT Topics
+# Flowcharts
+
+## Alarm
+![alarm flowchart](/Alarm_FlowChart.drawio.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Climate
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Home
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## MQTT Topics
 | Topics                               | Access   | Method  |
 | :----------------------------------- | :------- | :------ |
 | home/alarm/arm                       | External | Pub/Sub |
@@ -146,11 +161,11 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 ## Roadmap
 - [ ] Create a custom mqtt-broker with API and database
-- [ ] Make a fully functional alarm/control system
-- [ ] Integrate access control (RFID/NFC)
-- [ ] Make it easily expandable
-- [ ] Integrate several different devices
-- [ ] Create a full three-layered log <sup>3</sup>
+- [X] Make a fully functional alarm/control system
+- [X] Integrate access control (RFID/NFC)
+- [X] Make it easily expandable
+- [X] Integrate several different devices
+- [X] Create a full three-layered log <sup>3</sup>
 - [ ] Create mobile frontend to control the system
 - [ ] Create frontend to control system and view status, historical data
 

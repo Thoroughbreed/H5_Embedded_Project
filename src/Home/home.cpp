@@ -68,7 +68,7 @@ void initMQTT()
     critMessage = "";
     mqttClient.setWill(PUB_SYSTEM_SYSTEM, "Home controller lost connection!", false, 1);
 
-    if (!setupMQTT(CLIENTID, onMessageReceived))
+    if (!setupMQTT(CLIENTID, onMessageReceivedHome))
     {
         while(true)
         {
@@ -159,7 +159,7 @@ void updateOLED(int interval, bool message)
 
 #pragma region MQTT
 
-void onMessageReceived(String& topic, String& payload)
+void onMessageReceivedHome(String& topic, String& payload)
 {
     if (topic == ALARM_TOP)
     {

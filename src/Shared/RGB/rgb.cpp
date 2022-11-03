@@ -20,12 +20,14 @@ void ledGreen() {
 void ledBlue() {
     setRGB(0, 0, 255);
 }
+
 void ledWhite() {
     setRGB(255, 255, 255);
 }
 void ledOff() {
     setRGB(0, 0, 0);
 }
+
 void flashWhite(int delayInMs) {
     for (size_t i = 0; i < 3; i++) {
         delay(delayInMs);
