@@ -5,7 +5,7 @@
 #include <WiFiUdp.h>
 #include "../../.pio/libdeps/mkrwifi1010/NTPClient/NTPClient.h"
 
-/************************* NTP cluent *********************************/
+/************************* NTP client *********************************/
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
