@@ -131,6 +131,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
+![Climate Hipo diagram](/H5.Inteligenthus.Climate.hippo.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
