@@ -56,32 +56,34 @@
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Components
-| Device | Amount | Function | Controller |
-|-|-|-|-|
-| Arduino MKR1010 | 3 | Microcontroller | | 
-| DHT11 |  | Temperature and humidity sensor | Climate |
-| MQ-2 |  | Gas/air quality sensor | Climate |
-| Servo |  | Controlling window and garage door | Climate |
-| REED switch |  | Intrusion detection, front door | Alarm |
-| HC-SR501 PIR sensor |  | Intrusion (motion) detection, living room | Alarm |
-| Ping-dims | | Automatic doors | Home/entry |
-| RFID reader |  | Entry system | Home/entry |
-| 4x4 Keypad |  | Entry system | Home/entry |
-| 128x64 OLED | 1 | Peripheral display around the house (time, temp, status etc.| Home/entry |
+| Device              | Amount | Function                                                     | Controller |
+| ------------------- | ------ | ------------------------------------------------------------ | ---------- |
+| Arduino MKR1010     | 3      | Microcontroller                                              |            |
+| DHT11               | 3      | Temperature and humidity sensor                              | Climate    |
+| MQ-2                | 1      | Gas/air quality sensor                                       | Climate    |
+| Servo               | 1      | Controlling window and garage door                           | Climate    |
+| REED switch         | 1      | Intrusion detection, front door                              | Alarm      |
+| HC-SR501 PIR sensor | 2      | Intrusion (motion) detection, living room                    | Alarm      |
+| Ping-dims           | 1      | Automatic doors                                              | Home/entry |
+| RFID reader         | 1      | Entry system                                                 | Home/entry |
+| 4x4 Keypad          | 1      | Entry system                                                 | Home/entry |
+| 128x64 OLED         | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
 * The system is built for expansion, there is very little work in attaching multiple devices to the system, that could be more intrusion sensors, a buzzer, multiple displays etc.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Libraries
-| Name | Version | Component |
-|-|-|-|
-| Adafruit SSD1306 | 2.5.0 | OLED display
-| DS3231 |1.0.7 | RTC
-| DHT sensor library | 1.4.3 | DHT11 sensor
-| Keypad |3.1.1 | 4x4 keypad
-| MFRC522 | 1.1.8 | RFID reader
-| Servo |1.1.6 | Servo motors
-| Wire | 1.8.2 | I<sup>2</sup>C communication
-| SPI | 1.9.8 | SPI communication
+| Name               | Version | Component                    |
+| ------------------ | ------- | ---------------------------- |
+| Adafruit SSD1306   | 2.5.7   | OLED display                 |
+| DHT sensor library | 1.4.4   | DHT11 sensor                 |
+| NTPClient          | 3.2.1   |                              |
+| Servo              | 1.1.8   | Servo motors                 |
+| WiFiNINA           | 1.8.13  |                              |
+| MQTT               | 2.5.0   |                              |
+| Keypad             | 3.1.1   | 4x4 keypad                   |
+| MFRC522            | 1.4.10  | RFID reader                  |
+| Wire               | 1.8.2   | I<sup>2</sup>C communication |
+| SPI                | 1.9.8   | SPI communication            |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Case
