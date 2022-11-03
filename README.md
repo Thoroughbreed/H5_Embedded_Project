@@ -12,6 +12,8 @@
 <details>
   <summary>Table of Contents</summary>
 
+- [Intelligent house](#intelligent-house)
+      - [H5 Embedded group project](#h5-embedded-group-project)
 - [Case](#case)
 - [Requirements](#requirements)
 - [Architecture diagram](#architecture-diagram)
