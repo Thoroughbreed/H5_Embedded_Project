@@ -134,7 +134,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 ## Entry
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# MQTT Topics
+## MQTT Topics
 | Topics                               | Access   | Method  |
 | :----------------------------------- | :------- | :------ |
 | home/alarm/arm                       | External | Pub/Sub |
