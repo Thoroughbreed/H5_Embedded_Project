@@ -1,7 +1,7 @@
 #include "Climate/climate.h"
 #include "Shared/Logging/log.h"
 
-int airqualityMax = 400;
+int airqualityMax = 300;
 
 String getMQ2()
 {
@@ -16,7 +16,7 @@ void checkLivingroomHumid()
   if (ppm >= airqualityMax)
   {
     logCritical("climate", "AirQuality: AirQuality too bad Run");
-    setMyservo(50);
+    setMyservo(70);
   }
 }
 
