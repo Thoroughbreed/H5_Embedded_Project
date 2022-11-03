@@ -7,6 +7,8 @@ DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
 DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
 DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
 
+char clientId[] = MQTT_Climate_CLIENT_ID;
+
 unsigned long lastMillisPub = 0;
 unsigned long MillisPubInterval = 20000;
 
@@ -25,23 +27,7 @@ int setBedroomHumid = 50;
 void setupClimate()
 {
   Serial.begin(9600);
-
-  setupWiFi();
-  char clientId[] = "House_Cilmate";
-  setupMQTT(clientId, onMessageReceived);
-
-  //Subsribtions
-  mqttClient.subscribe("home/climate/servo");
-  mqttClient.subscribe("home/alarm/arm");
-  // SetKitchen
-  mqttClient.subscribe("home/climate/kitchen/settemp");
-  mqttClient.subscribe("home/climate/kitchen/sethumid");
-  // SetLivingroom
-  mqttClient.subscribe("home/climate/livingroom/settemp");
-  mqttClient.subscribe("home/climate/livingroom/sethumid");
-  // SetBedroom
-  mqttClient.subscribe("home/climate/bedroom/settemp");
-  mqttClient.subscribe("home/climate/bedroom/sethumid");
+  keepConnection();
 
   dhtLivingroom.begin();
   dhtKitchen.begin();
@@ -53,6 +39,7 @@ void setupClimate()
 void loopClimate()
 {
   mqttClient.loop();
+  keepConnection();
 
   if (millis() - lastMillisPub > MillisPubInterval) {
     lastMillisPub = millis();
@@ -89,7 +76,7 @@ void loopClimate()
 
 
 
-void onMessageReceived(String& topic, String& payload) {
+void onMessageReceivedClimate(String& topic, String& payload) {
   //Serial.println("Incoming: " + topic + " Payload: " + payload);
 
   // servo
@@ -143,5 +130,34 @@ void onMessageReceived(String& topic, String& payload) {
 }
 
 
+
+void keepConnection() 
+{
+    if (WiFi.status() == WL_CONNECTED) return;
+    if (mqttClient.connected()) return;
+
+    setupConnections();
+}
+
+void setupConnections() 
+{
+  mqttClient.setWill("home/log/system", "Climate system disconnected", false, 1);
+
+  while (!setupWiFi());
+  while (!setupMQTT((char*)clientId, onMessageReceivedClimate));
+
+  //Subsribtions
+  mqttClient.subscribe("home/climate/servo");
+  mqttClient.subscribe("home/alarm/arm");
+  // SetKitchen
+  mqttClient.subscribe("home/climate/kitchen/settemp");
+  mqttClient.subscribe("home/climate/kitchen/sethumid");
+  // SetLivingroom
+  mqttClient.subscribe("home/climate/livingroom/settemp");
+  mqttClient.subscribe("home/climate/livingroom/sethumid");
+  // SetBedroom
+  mqttClient.subscribe("home/climate/bedroom/settemp");
+  mqttClient.subscribe("home/climate/bedroom/sethumid");
+}
 
 
