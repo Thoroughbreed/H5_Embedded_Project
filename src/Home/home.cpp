@@ -332,7 +332,7 @@ void keyIn()
                 break;
             case 'B':
                 incomingMessage = true;
-                messageToDisplay = "Press * to partially armsystem";
+                messageToDisplay = "Press * to partiallyarm system";
                 ArmSystem = false;
                 ArmPerim = true;
                 RFIDActive = true;
