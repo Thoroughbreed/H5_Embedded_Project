@@ -11,8 +11,8 @@
 #define COLS 4												// Number of columns in keypad
 
 //TODO CHECK PINS!
-byte rowPins[ROWS] = {20, 21, 5, 4};	// Pin numbering for rows in keypad
-byte colPins[COLS] = {3, 2, 1, 0};	// Pin numbering for columns in keypad
+byte rowPins[ROWS] = {3, 2, 1, 0};	// Pin numbering for rows in keypad
+byte colPins[COLS] = {21, 20, 19, 18};	// Pin numbering for columns in keypad
 
 char text[4];												// Creates an array of chars for the sevseg
 char pwd[4] = {'1', '3', '3', '7'};		// The "correct" password for the keypad
