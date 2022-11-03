@@ -127,11 +127,11 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
-![alarm hipo diagram](/Alarm_HIPO.drawio.png)
+![alarm hipo diagram](/Docs/Alarm_HIPO.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
-![Climate Hipo diagram](/H5.Inteligenthus.Climate.hippo.drawio.png)
+![Climate Hipo diagram](/Docs/H5.Inteligenthus.Climate.hippo.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
@@ -140,15 +140,15 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 # Flowcharts
 
 ## Alarm
-![alarm flowchart](/Alarm_FlowChart.drawio.png)
+![alarm flowchart](/Docs/Alarm_FlowChart.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
-![Climate flowchart](/H5.Inteligentehus.Climate.drawio.png)
+![Climate flowchart](/Docs/H5.Inteligentehus.Climate.drawio.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
-![Home flowchart](/homeController_chart.png)
+![Home flowchart](/Docs/homeController_chart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## MQTT Topics
