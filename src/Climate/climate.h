@@ -11,10 +11,14 @@
 #define DHTPIN4Bedroom 4
 #define DHTTYPE DHT11
 #define AIR A1
+#define MQTT_Climate_CLIENT_ID "House_Climate"
+
+
 
 void setupClimate();
-void setupTemp();
-void setupHumid();
+void keepConnection();
+void setupConnections();
+
 void loopClimate();
 void onMessageReceivedClimate(String& topic, String& payload);
 
