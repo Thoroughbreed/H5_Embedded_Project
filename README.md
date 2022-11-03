@@ -26,18 +26,18 @@
         <li><a href="#getting-started">Getting started</a></li>
       </ul>
     </li>
-    <li><a href="#flowcharts">Flowcharts</a></li>
-       <ul>
-        <li><a href="#alarm">Alarm</a></li>
-        <li><a href="#climate">Climate</a></li>
-        <li><a href="#home">Home</a></li>
-      </ul> 
       <li><a href="#hipo-diagrams">HIPO Diagrams</a></li>
        <ul>
         <li><a href="#alarm">Alarm</a></li>
         <li><a href="#climate">Climate</a></li>
         <li><a href="#home">Home</a></li>
       </ul>
+    <li><a href="#flowcharts">Flowcharts</a></li>
+       <ul>
+        <li><a href="#alarm-1">Alarm</a></li>
+        <li><a href="#climate-1">Climate</a></li>
+        <li><a href="#home-1">Home</a></li>
+      </ul> 
     <li><a href="#mqtt-topics">MQTT Topics</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
