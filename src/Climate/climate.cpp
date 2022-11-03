@@ -7,7 +7,7 @@ DHT dhtLivingroom(DHTPIN2livingroom, DHTTYPE);
 DHT dhtKitchen(DHTPIN3kitchen, DHTTYPE);
 DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
 
-char clientId[] = MQTT_Climate_CLIENT_ID;
+char clientIdClimate[] = MQTT_Climate_CLIENT_ID;
 
 unsigned long lastMillisPub = 0;
 unsigned long MillisPubInterval = 20000;
@@ -144,7 +144,7 @@ void setupConnections()
   mqttClient.setWill("home/log/system", "Climate system disconnected", false, 1);
 
   while (!setupWiFi());
-  while (!setupMQTT((char*)clientId, onMessageReceivedClimate));
+  while (!setupMQTT((char*)clientIdClimate, onMessageReceivedClimate));
 
   //Subsribtions
   mqttClient.subscribe("home/climate/servo");
