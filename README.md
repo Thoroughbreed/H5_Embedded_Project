@@ -116,7 +116,11 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 ## Climate
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| 2           | Signal        | DHT11          | 3,3  |
+| 3           | Signal        | DHT11          | 3,3  |
+| 4           | Signal        | DHT11          | 3,3  |
+| A1          | Signal        | MQ-2           | 5,0  |
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # MQTT Topics
