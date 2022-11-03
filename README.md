@@ -28,12 +28,17 @@
     </li>
     <li><a href="#flowcharts">Flowcharts</a></li>
        <ul>
-        <li><a href="#hipo-diagram">HIPO Diagram</a></li>
-        <li><a href="#full-chart">Full chart</a></li>
         <li><a href="#alarm">Alarm</a></li>
         <li><a href="#climate">Climate</a></li>
-        <li><a href="#entry">Entry</a></li>
+        <li><a href="#home">Home</a></li>
+      </ul> 
+      <li><a href="#hipo-diagrams">HIPO Diagrams</a></li>
+       <ul>
+        <li><a href="#alarm">Alarm</a></li>
+        <li><a href="#climate">Climate</a></li>
+        <li><a href="#home">Home</a></li>
       </ul>
+    <li><a href="#mqtt-topics">MQTT Topics</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -116,13 +121,20 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+# HIPO Diagrams
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Alarm
+![alarm hipo diagram](/Alarm_HIPO.drawio.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Climate
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Home
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 # Flowcharts
-
-## HIPO Diagram
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Full chart
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
 ![alarm flowchart](/Alarm_FlowChart.drawio.png)
@@ -131,7 +143,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 ## Climate
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Entry
+## Home
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## MQTT Topics
