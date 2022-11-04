@@ -146,6 +146,10 @@ void updateOLED(int interval, bool message)
             if (alarmStatus == 0) printOLED(0, 15, "Disarmed", 2);
             if (alarmStatus == 1) printOLED(0, 15, "Perim. arm", 2);
             if (alarmStatus == 2) printOLED(0, 15, "Full arm", 2);
+            if (incomingAlarm)
+            {
+                printOLED(0, 30, alarmMessage, 2);
+            }
             printOLED(0, 50, timeClient.getFormattedTime(), 2);
             display.display();
         }
@@ -165,9 +169,13 @@ void onMessageReceivedHome(String& topic, String& payload)
         // Alarm halløj
         if (payload == "1")
         {
-            messageToDisplay = "  ALARM!! ";
-            incomingMessage = true;
-            flashWhite(75);
+            incomingAlarm = true;
+            ledRed();
+        }
+        if (payload == "0")
+        {
+            incomingAlarm = false;
+            ledGreen();
         }
     }
     if (topic.startsWith("home/log/info"))
@@ -209,7 +217,7 @@ void onMessageReceivedHome(String& topic, String& payload)
         }
         if (payload == "2") // Full
         {
-            messageToDisplay = "Fully     Armed";
+            messageToDisplay = "Fully Armed";
             alarmStatus = 2;
             incomingMessage = true;
             ArmPerim = false;
@@ -333,7 +341,7 @@ void keyIn()
                 break;
             case 'B':
                 incomingMessage = true;
-                messageToDisplay = "Press * to partiallyarm system";
+                messageToDisplay = "Press * to partially arm system";
                 ArmSystem = false;
                 ArmPerim = true;
                 RFIDActive = true;
@@ -350,7 +358,7 @@ void keyIn()
                 pwdCount = 0;
                 if (comparePassword())
                 {
-                    messageToDisplay = "Welcome   home :)";
+                    messageToDisplay = "Welcome home :)";
                     actionAlarm(0);
                     incomingMessage = true;
                     RFIDActive = false;
