@@ -82,7 +82,8 @@ void onMessageReceivedClimate(String& topic, String& payload) {
   // servo
   if(topic == "home/climate/servo")
   {
-    setMyservo(payload.toInt());
+    int angel = payload.toInt();
+    setMyservo(angel);
   }
 
   // alarm
