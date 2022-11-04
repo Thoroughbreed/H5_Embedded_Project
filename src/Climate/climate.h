@@ -17,7 +17,8 @@
 
 void setupClimate();
 void keepConnection();
-void setupConnections();
+void setupWifiConnection();
+void setupMQTTConnections();
 
 void loopClimate();
 void onMessageReceivedClimate(String& topic, String& payload);
