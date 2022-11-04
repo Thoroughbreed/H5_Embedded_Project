@@ -135,15 +135,20 @@ void onMessageReceivedClimate(String& topic, String& payload) {
 
 void keepConnection() 
 {
-    if (WiFi.status() != WL_CONNECTED) setupConnections();
-    if (!mqttClient.connected()) setupConnections();
+    if (WiFi.status() != WL_CONNECTED) setupWifiConnection();
+    if (!mqttClient.connected()) setupMQTTConnections();
 }
 
-void setupConnections() 
+void setupWifiConnection()
 {
-  mqttClient.setWill("home/log/system", "Climate system disconnected", false, 1);
-
+  mqttClient.setWill("home/log/system", "Climate system disconnected becouse of WiFi", false, 1);
   while (!setupWiFi());
+}
+
+
+void setupMQTTConnections() 
+{
+  mqttClient.setWill("home/log/system", "Climate system disconnected becouse of MQTT", false, 1);
   while (!setupMQTT((char*)clientIdClimate, onMessageReceivedClimate));
 
   //Subsribtions
