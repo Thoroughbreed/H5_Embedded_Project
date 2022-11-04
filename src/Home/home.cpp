@@ -255,9 +255,8 @@ void pingDoors(int interval)
 
 void connectivityCheck()
 {
-    if (wifiClient.connected()) return;
-    initWireless();
-    initMQTT();
+    if (!wifiClient.connected()) initWireless();
+    if (!mqttClient.connected()) initMQTT();
 }
 
 #pragma endregion
