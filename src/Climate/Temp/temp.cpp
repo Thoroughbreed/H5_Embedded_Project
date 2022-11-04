@@ -21,7 +21,7 @@ void checkLivingroomTemp(int setLivingroomTemp, DHT* dhtLivingroom)
   if (dhtLivingroom->readTemperature() > (setLivingroomTemp + hysteresetemp))
   {
     logInfo("climate", "Livingroom: temp to hot, opening windows");
-    setMyservo(20);
+    setMyservo(50);
   }
   if (dhtLivingroom->readTemperature() > (setLivingroomTemp - hysteresetemp) && dhtLivingroom->readTemperature() < (setLivingroomTemp + hysteresetemp))
   {
@@ -48,7 +48,7 @@ void checkKitchenTemp(int setKitchenTemp, DHT* dhtKitchen)
   if (dhtKitchen->readTemperature() > (setKitchenTemp + hysteresetemp))
   {
     logInfo("climate", "Kitchen: temp to hot, opening windows");
-    setMyservo(20);
+    setMyservo(50);
   }
   if (dhtKitchen->readTemperature() > (setKitchenTemp - hysteresetemp) && dhtKitchen->readTemperature() < (setKitchenTemp + hysteresetemp))
   {
@@ -77,7 +77,7 @@ void checkBedroomTemp(int setBedroomTemp, DHT* dhtBedroom)
   if (dhtBedroom->readTemperature() > (setBedroomTemp + hysteresetemp))
   {
     logInfo("climate", "Bedroom: temp to hot, opening windows");
-    setMyservo(20);
+    setMyservo(50);
   }
   if (dhtBedroom->readTemperature() > (setBedroomTemp - hysteresetemp) && dhtBedroom->readTemperature() < (setBedroomTemp + hysteresetemp))
   {
