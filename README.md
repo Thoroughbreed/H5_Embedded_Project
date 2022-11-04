@@ -101,9 +101,34 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 # Pin layout
 
 ## Home
-| Arduino pin | Component pin | Component name | Volt |
-| :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| Arduino pin | Component pin | Component name     | Volt                   |
+|:------------|:--------------|:-------------------|:-----------------------|
+| 5V          | VCC           | HC-SR04 Ultrasound | 5V                     |
+| D6          | Trigger       | HC-SR04            |                        |
+| D5          | Echo          | HC-SR04            | 3,3v (voltage divider) |
+| GND         | GND           | HC-SR04            |                        |
+| SDA (D11)   | SDA           | SSD1306 OLED       |                        |
+| SCL (D12)   | SCL           | SSD1306            |                        |
+| 5V          | VCC           | SSD1306            | 5V                     |
+| GND         | GND           | SSD1306            |                        |
+| D7          | RST           | RC522 RFID reader  |                        |
+| D13         | SDA (SS)      | RC522              |                        |
+| SCK (D9)    | SCK           | RC522              |                        |
+| MOSI (D8)   | MOSI          | RC522              |                        |
+| MISO (D10)  | MISO          | RC522              |                        |
+| VCC         | VCC           | RC522              | 3,3V                   |   
+| GND         | GND           | RC522              |                        |  
+| D14         | SIG           | SG90 Servo         |                        |  
+| VCC         | VCC           | SG90               | 3,3V                   |  
+| GND         | GND           | SG90               |                        |  
+| A3/D18      | 1             | 4x4 Matrix keypad  |                        |  
+| A4/D19      | 2             | Keypad             |                        |  
+| A5/D20      | 3             | Keypad             |                        |  
+| A6/D21      | 4             | Keypad             |                        |  
+| D0          | 5             | Keypad             |                        |  
+| D1          | 6             | Keypad             |                        |  
+| D2          | 7             | Keypad             |                        |  
+| D3          | 8             | Keypad             |                        |  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
@@ -157,7 +182,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 # Components
 | Device              | Amount | Function                                                     | Controller |
-| ------------------- | ------ | ------------------------------------------------------------ | ---------- |
+|---------------------| ------ | ------------------------------------------------------------ | ---------- |
 | Arduino MKR1010     | 3      | Microcontroller                                              |            |
 | DHT11               | 3      | Temperature and humidity sensor                              | Climate    |
 | MQ-2                | 1      | Gas/air quality sensor                                       | Climate    |
@@ -165,9 +190,9 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 | REED switch         | 1      | Intrusion detection, front door                              | Alarm      |
 | HC-SR501 PIR sensor | 2      | Intrusion (motion) detection, living room                    | Alarm      |
 | HC-SR04 Ultrasound  | 1      | Automatic doors                                              | Home/entry |
-| RFID reader         | 1      | Entry system                                                 | Home/entry |
+| RC522 RFID reader   | 1      | Entry system                                                 | Home/entry |
 | 4x4 Keypad          | 1      | Entry system                                                 | Home/entry |
-| 128x64 OLED         | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
+| SSD1306 128x64 OLED | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
 * The system is built for expansion, there is very little work in attaching multiple devices to the system, that could be more intrusion sensors, a buzzer, multiple displays etc.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -242,3 +267,5 @@ Project Link: [https://github.com/Thoroughbreed/H5_Embedded_Project](https://git
 [license-url]: https://github.com/Thoroughbreed/H5_Embedded_Project/blob/master/LICENSE
 [twitter-shield]: https://img.shields.io/twitter/follow/andreasen_jan?style=social
 [twitter-url]: https://twitter.com/andreasen_jan
+[twitter-shield-ptr]: https://img.shields.io/twitter/follow/peter_hym?style=social
+[twitter-url-ptr]: https://twitter.com/peter_hym
