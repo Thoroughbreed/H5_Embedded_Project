@@ -133,7 +133,7 @@ void updateOLED(int interval, bool message)
             while ((millis() - delayOLED) < 5000)
             {
                 display.clearDisplay();
-                printOLED(0, 0, messageToDisplay, 2);
+                printOLED(0, 0, messageToDisplay, 1);
                 printOLED(0, 55, timeClient.getFormattedTime());
                 display.display();
                 keyIn();
