@@ -75,6 +75,7 @@ void checkBedroomHumid(int setBedroomHumid, DHT* dhtBedroom)
   {
     logInfo("climate", "Bedroom: humid to high, opening windows");
     setMyservo(30);
+    
   }
   if (dhtBedroom->readHumidity() > (setBedroomHumid - hysterese) && dhtBedroom->readTemperature() < (setBedroomHumid + hysterese))
   {

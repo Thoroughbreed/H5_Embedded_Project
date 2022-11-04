@@ -135,20 +135,20 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
 | 5V          | POWER         | HC-SR501 PIR 1 | 5V   |
-| 5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
+| D5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
 | 5V          | POWER         | HC-SR501 PIR 2 | 5V   |
-| 6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
-| 7           |               | REED Relay     | 3.3V |
+| D6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
+| D7           |               | REED Relay     | 3.3V |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-| 2           | Signal        | DHT11          | 3,3  |
-| 3           | Signal        | DHT11          | 3,3  |
-| 4           | Signal        | DHT11          | 3,3  |
+| D2           | Signal        | DHT11          | 3,3  |
+| D3           | Signal        | DHT11          | 3,3  |
+| D4           | Signal        | DHT11          | 3,3  |
 | A1          | Signal        | MQ-2           | 5,0  |
-| 5           | Signal        | SG90           | 5,0  |
+| D5           | Signal        | SG90           | 5,0  |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -237,7 +237,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 # Contact
 - Peter Hymøller - peterhym21@gmail.com
-  - [Twitter](https://twitter.com/peter_hym)
+  - [![Twitter][twitter-shield-ptr]][twitter-url-ptr]
 - Nicolai Heuck - nicolaiheuck@gmail.com
 - Jan Andreasen - jan@tved.it
   - [![Twitter][twitter-shield]][twitter-url]

@@ -10,6 +10,7 @@
 #include "../../Shared/WiFi/wifi.h"
 #include "../../Shared/MQTT/mqtt.h"
 #include "../../Shared/RGB/rgb.h"
+#include "../../Shared/Logging/log.h"
 #include "home_func.h"
 
 
@@ -62,8 +63,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 #define ALARM_STAT "home/alarm/arm"
 #define SUB_SYSTEM_LOG "home/log/info/#"
 #define SUB_SYSTEM_CRIT "home/log/critical/#"
-#define PUB_SYSTEM_LOG "home/log/info/home"
-#define PUB_SYSTEM_CRIT "home/log/critical/home"
+#define SUB_SYSTEM_SYSTEM "home/log/system/#"
+#define PUB_SYSTEM_SYSTEM "home/log/system/home"
 
 
 /************************* Func prototyping *********************************/
