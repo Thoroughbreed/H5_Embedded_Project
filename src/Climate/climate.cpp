@@ -71,7 +71,8 @@ void loopClimate()
     checkLivingroomHumid();
 
   }
-
+  if (!mqttClient.connected()) ledRed();
+  else ledGreen();
 }
 
 
@@ -134,10 +135,8 @@ void onMessageReceivedClimate(String& topic, String& payload) {
 
 void keepConnection() 
 {
-    if (WiFi.status() == WL_CONNECTED) return;
-    if (mqttClient.connected()) return;
-
-    setupConnections();
+    if (WiFi.status() != WL_CONNECTED) setupConnections();
+    if (!mqttClient.connected()) setupConnections();
 }
 
 void setupConnections() 
