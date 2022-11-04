@@ -237,7 +237,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 # Contact
 - Peter Hymøller - peterhym21@gmail.com
-  - [Twitter](https://twitter.com/peter_hym)
+  - [![Twitter][twitter-shield-ptr]][twitter-url-ptr]
 - Nicolai Heuck - nicolaiheuck@gmail.com
 - Jan Andreasen - jan@tved.it
   - [![Twitter][twitter-shield]][twitter-url]
