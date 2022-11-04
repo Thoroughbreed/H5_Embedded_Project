@@ -12,8 +12,6 @@
 <details>
   <summary>Table of Contents</summary>
 
-- [Intelligent house](#intelligent-house)
-      - [H5 Embedded group project](#h5-embedded-group-project)
 - [Case](#case)
 - [Requirements](#requirements)
 - [Architecture diagram](#architecture-diagram)
@@ -61,10 +59,11 @@ Build master and slave units for the *Intelligent house* - the master unit must 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Architecture diagram
-![architecture diagram](/Docs/Architecture-Diagram.drawio.png)
+![architecture diagram](/Docs/Architecture_Diagram.png)
 
 # Roadmap
-- [ ] Create a custom mqtt-broker with API and database
+- [X] Create a custom mqtt-broker with API ~and database~
+  - [ ] Database will be created at a later time
 - [X] Make a fully functional alarm/control system
 - [X] Integrate access control (RFID/NFC)
 - [X] Make it easily expandable
@@ -102,21 +101,55 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 # Pin layout
 
 ## Home
-| Arduino pin | Component pin | Component name | Volt |
-| :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| Arduino pin | Component pin | Component name     | Volt                   |
+|:------------|:--------------|:-------------------|:-----------------------|
+| 5V          | VCC           | HC-SR04 Ultrasound | 5V                     |
+| D6          | Trigger       | HC-SR04            |                        |
+| D5          | Echo          | HC-SR04            | 3,3v (voltage divider) |
+| GND         | GND           | HC-SR04            |                        |
+| SDA (D11)   | SDA           | SSD1306 OLED       |                        |
+| SCL (D12)   | SCL           | SSD1306            |                        |
+| 5V          | VCC           | SSD1306            | 5V                     |
+| GND         | GND           | SSD1306            |                        |
+| D7          | RST           | RC522 RFID reader  |                        |
+| D13         | SDA (SS)      | RC522              |                        |
+| SCK (D9)    | SCK           | RC522              |                        |
+| MOSI (D8)   | MOSI          | RC522              |                        |
+| MISO (D10)  | MISO          | RC522              |                        |
+| VCC         | VCC           | RC522              | 3,3V                   |   
+| GND         | GND           | RC522              |                        |  
+| D14         | SIG           | SG90 Servo         |                        |  
+| VCC         | VCC           | SG90               | 3,3V                   |  
+| GND         | GND           | SG90               |                        |  
+| A3/D18      | 1             | 4x4 Matrix keypad  |                        |  
+| A4/D19      | 2             | Keypad             |                        |  
+| A5/D20      | 3             | Keypad             |                        |  
+| A6/D21      | 4             | Keypad             |                        |  
+| D0          | 5             | Keypad             |                        |  
+| D1          | 6             | Keypad             |                        |  
+| D2          | 7             | Keypad             |                        |  
+| D3          | 8             | Keypad             |                        |  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| 5V          | POWER         | HC-SR501 PIR 1 | 5V   |
+| 5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
+| 5V          | POWER         | HC-SR501 PIR 2 | 5V   |
+| 6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
+| 7           |               | REED Relay     | 3.3V |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
 | Arduino pin | Component pin | Component name | Volt |
 | :---------- | :------------ | :------------- | :--- |
-|             |               |                |      |
+| 2           | Signal        | DHT11          | 3,3  |
+| 3           | Signal        | DHT11          | 3,3  |
+| 4           | Signal        | DHT11          | 3,3  |
+| A1          | Signal        | MQ-2           | 5,0  |
+| 5           | Signal        | SG90           | 5,0  |
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # MQTT Topics
@@ -149,7 +182,7 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 # Components
 | Device              | Amount | Function                                                     | Controller |
-| ------------------- | ------ | ------------------------------------------------------------ | ---------- |
+|---------------------| ------ | ------------------------------------------------------------ | ---------- |
 | Arduino MKR1010     | 3      | Microcontroller                                              |            |
 | DHT11               | 3      | Temperature and humidity sensor                              | Climate    |
 | MQ-2                | 1      | Gas/air quality sensor                                       | Climate    |
@@ -157,9 +190,9 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 | REED switch         | 1      | Intrusion detection, front door                              | Alarm      |
 | HC-SR501 PIR sensor | 2      | Intrusion (motion) detection, living room                    | Alarm      |
 | HC-SR04 Ultrasound  | 1      | Automatic doors                                              | Home/entry |
-| RFID reader         | 1      | Entry system                                                 | Home/entry |
+| RC522 RFID reader   | 1      | Entry system                                                 | Home/entry |
 | 4x4 Keypad          | 1      | Entry system                                                 | Home/entry |
-| 128x64 OLED         | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
+| SSD1306 128x64 OLED | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
 * The system is built for expansion, there is very little work in attaching multiple devices to the system, that could be more intrusion sensors, a buzzer, multiple displays etc.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -167,29 +200,30 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
-![alarm hipo diagram](/Docs/Alarm_HIPO.drawio.png)
+![alarm hipo diagram](/Docs/Alarm_HIPO.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
-![Climate Hipo diagram](/Docs/H5.Inteligenthus.Climate.hippo.drawio.png)
+![Climate Hipo diagram](/Docs/Climate_HIPO.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
+![Climate Hipo diagram](/Docs/HomeController_HIPO.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 # Flowcharts
 
 ## Alarm
-![alarm flowchart](/Docs/Alarm_FlowChart.drawio.png)
+![alarm flowchart](/Docs/Alarm_Flowchart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
-![Climate flowchart](/Docs/H5.Inteligentehus.Climate.drawio.png)
+![Climate flowchart](/Docs/Climate_Flowchart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Home
-![Home flowchart](/Docs/homeController_chart.png)
+![Home flowchart](/Docs/HomeController_Flowchart.png)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -233,3 +267,5 @@ Project Link: [https://github.com/Thoroughbreed/H5_Embedded_Project](https://git
 [license-url]: https://github.com/Thoroughbreed/H5_Embedded_Project/blob/master/LICENSE
 [twitter-shield]: https://img.shields.io/twitter/follow/andreasen_jan?style=social
 [twitter-url]: https://twitter.com/andreasen_jan
+[twitter-shield-ptr]: https://img.shields.io/twitter/follow/peter_hym?style=social
+[twitter-url-ptr]: https://twitter.com/peter_hym
