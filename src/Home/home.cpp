@@ -266,46 +266,41 @@ void connectivityCheck()
 
 void readChip()
 {
-    if (RFIDActive)
-    {
-        digitalWrite(RST_PIN, 1);
-        ledRed();
-    }
-    if (!RFIDActive)
-    {
-        digitalWrite(RST_PIN, 0);
-        ledBlue();
-    }
+    if (RFIDActive) {
+//        The reset pin doesn't work as desired... weirdly enough
+//        digitalWrite(RST_PIN, 1);
+//        ledRed();
+//    }
+//    if (!RFIDActive)
+//    {
+//        digitalWrite(RST_PIN, 0);
+//        ledBlue();
+//    }
 
-    if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
-    {
-        delay(50);
-        return;
-    }
-    String newUid = "";
-    for (byte i = 0; i < mfrc522.uid.size; i++)
-    {
-        newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
-        newUid += mfrc522.uid.uidByte[i], HEX;
-    }
-    if (newUid != uid)
-    {
-        String payload = "RFID UID: ";
-        payload += newUid;
-        uid = newUid;
-        if (newUid == SECRET_RFID)
-        {
-            actionAlarm(0); // 0 Disables alarm
-            messageToDisplay = "Welcome home :)";
-            incomingMessage = true;
-            uid = "";
-            RFIDActive = false;
+        if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+            delay(50);
+            return;
         }
-        else
-        {
-            messageToDisplay = "ACCESS DENIED";
-            incomingMessage = true;
-            logInfo("home", "Wrong chip at front door");
+        String newUid = "";
+        for (byte i = 0; i < mfrc522.uid.size; i++) {
+            newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
+            newUid += mfrc522.uid.uidByte[i], HEX;
+        }
+        if (newUid != uid) {
+            String payload = "RFID UID: ";
+            payload += newUid;
+            uid = newUid;
+            if (newUid == SECRET_RFID) {
+                actionAlarm(0); // 0 Disables alarm
+                messageToDisplay = "Welcome home :)";
+                incomingMessage = true;
+                uid = "";
+                RFIDActive = false;
+            } else {
+                messageToDisplay = "ACCESS DENIED";
+                incomingMessage = true;
+                logInfo("home", "Wrong chip at front door");
+            }
         }
     }
 }
