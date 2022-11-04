@@ -11,7 +11,7 @@ void setupMyservo() {
 void setMyservo(int servoAngel) {
   if (!alarm)
   {
-      myservo.write(servoAngel);
+    myservo.write(servoAngel);
   }
 }
 
