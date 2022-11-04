@@ -11,73 +11,31 @@
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#requirements">Requirements</a>
-      <ul>
-        <li><a href="#components">Components</a></li>
-	    <li><a href="#libraries">Libraries</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#case">Case</a>
-      <ul>
-        <li><a href="#summary-and-rundown">Summary/rundown</a></li>
-        <li><a href="#getting-started">Getting started</a></li>
-      </ul>
-    </li>
-    <li><a href="#flowcharts">Flowcharts</a></li>
-       <ul>
-        <li><a href="#hipo-diagram">HIPO Diagram</a></li>
-        <li><a href="#full-chart">Full chart</a></li>
-        <li><a href="#alarm">Alarm</a></li>
-        <li><a href="#climate">Climate</a></li>
-        <li><a href="#entry">Entry</a></li>
-      </ul>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
+
+- [Case](#case)
+- [Requirements](#requirements)
+- [Architecture diagram](#architecture-diagram)
+- [Roadmap](#roadmap)
+- [Summary and rundown](#summary-and-rundown)
+- [Getting started](#getting-started)
+- [Pin layout](#pin-layout)
+  - [Home](#home)
+  - [Alarm](#alarm)
+  - [Climate](#climate)
+- [MQTT Topics](#mqtt-topics)
+- [Libraries](#libraries)
+- [Components](#components)
+- [HIPO Diagrams](#hipo-diagrams)
+  - [Alarm](#alarm-1)
+  - [Climate](#climate-1)
+  - [Home](#home-1)
+- [Flowcharts](#flowcharts)
+  - [Alarm](#alarm-2)
+  - [Climate](#climate-2)
+  - [Home](#home-2)
+- [License](#license)
+- [Contact](#contact)
 </details>
-
-## Requirements
-- [ ] Configure several different peripherals
-- [ ] Read values from sensors in a sensible manner
-- [ ] Control various aspects of the intelligent house
-- [ ] Configure some sort of HID (display, keypad etc.)
-- [ ] Present measurements for the user in a user-friendly manner
-- [ ] Have multiple boards communicate
-- [ ] Create an endpoint for user friendly remote control
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-### Components
-| Device | Amount | Function | Controller |
-|-|-|-|-|
-| Arduino MKR1010 | 3 | Microcontroller | | 
-| DHT11 |  | Temperature and humidity sensor | Climate |
-| MQ-2 |  | Gas/air quality sensor | Climate |
-| Servo |  | Controlling window and garage door | Climate |
-| REED switch |  | Intrusion detection, front door | Alarm |
-| HC-SR501 PIR sensor |  | Intrusion (motion) detection, living room | Alarm |
-| Ping-dims | | Automatic doors | Home/entry |
-| RFID reader |  | Entry system | Home/entry |
-| 4x4 Keypad |  | Entry system | Home/entry |
-| 128x64 OLED | 1 | Peripheral display around the house (time, temp, status etc.| Home/entry |
-* The system is built for expansion, there is very little work in attaching multiple devices to the system, that could be more intrusion sensors, a buzzer, multiple displays etc.
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-### Libraries
-| Name | Version | Component |
-|-|-|-|
-| Adafruit SSD1306 | 2.5.0 | OLED display
-| DS3231 |1.0.7 | RTC
-| DHT sensor library | 1.4.3 | DHT11 sensor
-| Keypad |3.1.1 | 4x4 keypad
-| MFRC522 | 1.1.8 | RFID reader
-| Servo |1.1.6 | Servo motors
-| Wire | 1.8.2 | I<sup>2</sup>C communication
-| SPI | 1.9.8 | SPI communication
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 # Case
 Build master and slave units for the *Intelligent house* - the master unit must be the "heart" of the communication, and control several functions around the house via the slave units.
@@ -90,7 +48,32 @@ Build master and slave units for the *Intelligent house* - the master unit must 
 * General smart-home functions (lights, doors, etc.)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-##  Summary and rundown
+# Requirements
+- [X] Configure several different peripherals
+- [X] Read values from sensors in a sensible manner
+- [X] Control various aspects of the intelligent house
+- [X] Configure some sort of HID (display, keypad etc.)
+- [X] Present measurements for the user in a user-friendly manner
+- [X] Have multiple boards communicate
+- [ ] Create an endpoint for user friendly remote control
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+# Architecture diagram
+![architecture diagram](/Docs/Architecture_Diagram.png)
+
+# Roadmap
+- [X] Create a custom mqtt-broker with API ~and database~
+  - [ ] Database will be created at a later time
+- [X] Make a fully functional alarm/control system
+- [X] Integrate access control (RFID/NFC)
+- [X] Make it easily expandable
+- [X] Integrate several different devices
+- [X] Create a full three-layered log <sup>3</sup>
+- [ ] Create mobile frontend to control the system
+- [ ] Create frontend to control system and view status, historical data
+
+
+#  Summary and rundown
 The **IntelliHouse2000** is a all-in-one microcontroller combo that provides climate control, monitoring and alarm/entry functions for the entire house. You can have sensors in all rooms, and set the parameters for each sensor.
 If an event is triggered while the alarm is armed, no apparent function will happen in the house, but the log will be updated and the user will get a message<sup>1</sup> with the event, timestamp and what sensor triggered it. If however the alarm is disarmed (that is, the user is home) **IntelliHouse2000** will take action on the event.
 > If you forget to turn off your car in the garage, and the sensor detects rising CO<sub>2</sub> levels, the user will be warned, displays around the house will show the event, and the garage door will open incrementally until the sensor value returns to normal
@@ -100,9 +83,8 @@ If an event is triggered while the alarm is armed, no apparent function will hap
 > No matter what action have been taken (open doors, windows etc.) those will automatically close when the alarm system is armed. This happens with both perimeter and full arm.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Getting started
 
-
+# Getting started
 To add a device go to the appropriate section (e.g. Climate) and locate the header-file (ends with .h) - there you can see the pin-defines, where all you have to do it add your new device to that list like this: `#define NewSensor 8` where *NewSensor* is the "friendly name" of your sensor, and *8* is the pin-number you're using on the board.
 Next thing is to "start" the sensor `DHT newDHT(NewSensor, Type)`where *newDHT* is the name of the object and *Type* is the type of sensor (e.g. DHT11).
 
@@ -116,42 +98,144 @@ Make sure to read the setup for each device, some communicate by one-wire (like 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# Flowcharts
+# Pin layout
 
-## HIPO Diagram
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Full chart
+## Home
+| Arduino pin | Component pin | Component name     | Volt                   |
+|:------------|:--------------|:-------------------|:-----------------------|
+| 5V          | VCC           | HC-SR04 Ultrasound | 5V                     |
+| D6          | Trigger       | HC-SR04            |                        |
+| D5          | Echo          | HC-SR04            | 3,3v (voltage divider) |
+| GND         | GND           | HC-SR04            |                        |
+| SDA (D11)   | SDA           | SSD1306 OLED       |                        |
+| SCL (D12)   | SCL           | SSD1306            |                        |
+| 5V          | VCC           | SSD1306            | 5V                     |
+| GND         | GND           | SSD1306            |                        |
+| D7          | RST           | RC522 RFID reader  |                        |
+| D13         | SDA (SS)      | RC522              |                        |
+| SCK (D9)    | SCK           | RC522              |                        |
+| MOSI (D8)   | MOSI          | RC522              |                        |
+| MISO (D10)  | MISO          | RC522              |                        |
+| VCC         | VCC           | RC522              | 3,3V                   |   
+| GND         | GND           | RC522              |                        |  
+| D14         | SIG           | SG90 Servo         |                        |  
+| VCC         | VCC           | SG90               | 3,3V                   |  
+| GND         | GND           | SG90               |                        |  
+| A3/D18      | 1             | 4x4 Matrix keypad  |                        |  
+| A4/D19      | 2             | Keypad             |                        |  
+| A5/D20      | 3             | Keypad             |                        |  
+| A6/D21      | 4             | Keypad             |                        |  
+| D0          | 5             | Keypad             |                        |  
+| D1          | 6             | Keypad             |                        |  
+| D2          | 7             | Keypad             |                        |  
+| D3          | 8             | Keypad             |                        |  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Alarm
+| Arduino pin | Component pin | Component name | Volt |
+| :---------- | :------------ | :------------- | :--- |
+| 5V          | POWER         | HC-SR501 PIR 1 | 5V   |
+| 5           | OUTPUT        | HC-SR501 PIR 1 | 3.3V |
+| 5V          | POWER         | HC-SR501 PIR 2 | 5V   |
+| 6           | OUTPUT        | HC-SR501 PIR 2 | 3.3V |
+| 7           |               | REED Relay     | 3.3V |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Climate
+| Arduino pin | Component pin | Component name | Volt |
+| :---------- | :------------ | :------------- | :--- |
+| 2           | Signal        | DHT11          | 3,3  |
+| 3           | Signal        | DHT11          | 3,3  |
+| 4           | Signal        | DHT11          | 3,3  |
+| A1          | Signal        | MQ-2           | 5,0  |
+| 5           | Signal        | SG90           | 5,0  |
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Entry
+# MQTT Topics
+| Topics                               | Access   | Method  |
+| :----------------------------------- | :------- | :------ |
+| home/alarm/arm                       | External | Pub/Sub |
+| home/alarm/alarm                     | External | Sub     |
+| home/alarm/alarm                     | Internal | Pub     |
+| home/climate/status/#                | External | Sub     |
+| home/climate/status/[section]/[type] | Internal | Pub     |
+| home/climate/servo                   | External | Pub     |
+| home/log/[logLevel]/[type]           | Internal | Pub     |
+| home/log/#                           | External | Sub     |
+
+# Libraries
+| Name               | Version | Component                    |
+| ------------------ | ------- | ---------------------------- |
+| Adafruit SSD1306   | 2.5.7   | OLED display                 |
+| DHT sensor library | 1.4.4   | DHT11 sensor                 |
+| NTPClient          | 3.2.1   |                              |
+| Servo              | 1.1.8   | Servo motors                 |
+| WiFiNINA           | 1.8.13  |                              |
+| MQTT               | 2.5.0   |                              |
+| Keypad             | 3.1.1   | 4x4 keypad                   |
+| MFRC522            | 1.4.10  | RFID reader                  |
+| Wire               | 1.8.2   | I<sup>2</sup>C communication |
+| SPI                | 1.9.8   | SPI communication            |
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Roadmap
-- [ ] Create a custom mqtt-broker with API and database
-- [ ] Make a fully functional alarm/control system
-- [ ] Integrate access control (RFID/NFC)
-- [ ] Make it easily expandable
-- [ ] Integrate several different devices
-- [ ] Create a full three-layered log <sup>3</sup>
-- [ ] Create mobile frontend to control the system
-- [ ] Create frontend to control system and view status, historical data
+
+# Components
+| Device              | Amount | Function                                                     | Controller |
+|---------------------| ------ | ------------------------------------------------------------ | ---------- |
+| Arduino MKR1010     | 3      | Microcontroller                                              |            |
+| DHT11               | 3      | Temperature and humidity sensor                              | Climate    |
+| MQ-2                | 1      | Gas/air quality sensor                                       | Climate    |
+| Servo               | 2      | Controlling window and garage door                           | Climate    |
+| REED switch         | 1      | Intrusion detection, front door                              | Alarm      |
+| HC-SR501 PIR sensor | 2      | Intrusion (motion) detection, living room                    | Alarm      |
+| HC-SR04 Ultrasound  | 1      | Automatic doors                                              | Home/entry |
+| RC522 RFID reader   | 1      | Entry system                                                 | Home/entry |
+| 4x4 Keypad          | 1      | Entry system                                                 | Home/entry |
+| SSD1306 128x64 OLED | 1      | Peripheral display around the house (time, temp, status etc. | Home/entry |
+* The system is built for expansion, there is very little work in attaching multiple devices to the system, that could be more intrusion sensors, a buzzer, multiple displays etc.
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+# HIPO Diagrams
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Alarm
+![alarm hipo diagram](/Docs/Alarm_HIPO.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Climate
+![Climate Hipo diagram](/Docs/Climate_HIPO.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Home
+![Climate Hipo diagram](/Docs/HomeController_HIPO.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
-### License
+# Flowcharts
+
+## Alarm
+![alarm flowchart](/Docs/Alarm_Flowchart.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Climate
+![Climate flowchart](/Docs/Climate_Flowchart.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Home
+![Home flowchart](/Docs/HomeController_Flowchart.png)
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+# License
 * Hardware: CC-BY-LA (Creative Commons)
 * API: GPLv3
 * Frontend: GPLv3
 * Mobile: GPLv3
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Contact
+# Contact
 - Peter Hymøller - peterhym21@gmail.com
   - [Twitter](https://twitter.com/peter_hym)
 - Nicolai Heuck - nicolaiheuck@gmail.com
@@ -183,3 +267,5 @@ Project Link: [https://github.com/Thoroughbreed/H5_Embedded_Project](https://git
 [license-url]: https://github.com/Thoroughbreed/H5_Embedded_Project/blob/master/LICENSE
 [twitter-shield]: https://img.shields.io/twitter/follow/andreasen_jan?style=social
 [twitter-url]: https://twitter.com/andreasen_jan
+[twitter-shield-ptr]: https://img.shields.io/twitter/follow/peter_hym?style=social
+[twitter-url-ptr]: https://twitter.com/peter_hym
