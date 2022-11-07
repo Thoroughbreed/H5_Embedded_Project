@@ -6,8 +6,7 @@ int hysterese = 10;
 // Livingroom
 String getHumidLivingroom(DHT* dhtLivingroom)
 {
-  String Humid = "Humid livingroom = ";
-  Humid += String(dhtLivingroom->readHumidity());
+  String Humid = String(dhtLivingroom->readHumidity());
   return Humid;
 }
 
@@ -33,8 +32,7 @@ void checkLivingroomHumid(int setLivingroomHunid, DHT* dhtLivingroom)
 // Kitchen
 String getHumidKitchen(DHT* dhtKitchen)
 {
-  String Humid = "Humid kitchen = ";
-  Humid += String(dhtKitchen->readHumidity());
+  String Humid = String(dhtKitchen->readHumidity());
   return Humid;
 }
 
@@ -60,8 +58,7 @@ void checkKitchenHumid(int setKitchenHumid, DHT* dhtKitchen)
 // Bedroom
 String getHumidBedroom(DHT* dhtBedroom)
 {
-  String Humid = "Humid bedroom = ";
-  Humid += String(dhtBedroom->readHumidity());
+  String Humid = String(dhtBedroom->readHumidity());
   return Humid;
 }
 

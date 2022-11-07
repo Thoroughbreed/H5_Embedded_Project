@@ -6,8 +6,7 @@ int hysteresetemp = 3;
 // Livingroom
 String getTempLivingroom(DHT* dhtLivingroom)
 {
-  String Temp = "Temp livinroom = ";
-  Temp +=  String(dhtLivingroom->readTemperature());
+  String Temp = String(dhtLivingroom->readTemperature());
   return Temp;
 }
 
@@ -34,8 +33,7 @@ void checkLivingroomTemp(int setLivingroomTemp, DHT* dhtLivingroom)
 // Kitchen
 String getTempKitchen(DHT* dhtKitchen)
 {
-  String Temp = "Temp kitchen = ";
-  Temp +=  String(dhtKitchen->readTemperature());
+  String Temp = String(dhtKitchen->readTemperature());
   return Temp;
 }
 
@@ -62,8 +60,7 @@ void checkKitchenTemp(int setKitchenTemp, DHT* dhtKitchen)
 // Bedroom
 String getTempBedroom(DHT* dhtBedroom)
 {
-  String Temp = "Temp bedroom = ";
-  Temp +=  String(dhtBedroom->readTemperature());
+  String Temp = String(dhtBedroom->readTemperature());
   return Temp;
 }
 
