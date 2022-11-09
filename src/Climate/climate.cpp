@@ -71,8 +71,9 @@ void loopClimate()
     checkLivingroomHumid();
 
   }
-  if (!mqttClient.connected()) ledRed();
-  else ledGreen();
+
+
+  
 }
 
 
