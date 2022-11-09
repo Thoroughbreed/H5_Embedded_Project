@@ -37,10 +37,12 @@ void setupConnectivity() {
     mqttClient.subscribe(MQTT_ARM_TOPIC);
 }
 void ensureConnectivity() {
-    if (WiFi.status() == WL_CONNECTED) return;
-    if (mqttClient.connected()) return;
-
-    setupConnectivity();
+    if (WiFi.status() != WL_CONNECTED) {
+        setupConnectivity();
+    }
+    if (!mqttClient.connected()) {
+        setupConnectivity();
+    }
 }
 
 void checkSensors() {
