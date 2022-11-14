@@ -63,13 +63,13 @@ Build master and slave units for the *Intelligent house* - the master unit must 
 
 # Roadmap
 - [X] Create a custom mqtt-broker with API ~and database~
-  - [ ] Database will be created at a later time
+  - [X] Database will be created at a later time
 - [X] Make a fully functional alarm/control system
 - [X] Integrate access control (RFID/NFC)
 - [X] Make it easily expandable
 - [X] Integrate several different devices
 - [X] Create a full three-layered log <sup>3</sup>
-- [ ] Create mobile frontend to control the system
+- [X] Create mobile frontend to control the system
 - [ ] Create frontend to control system and view status, historical data
 
 
