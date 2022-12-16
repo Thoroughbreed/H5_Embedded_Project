@@ -25,10 +25,12 @@ const int doorOpen = 90;
 String messageToDisplay;
 String logMessage;
 String critMessage;
+String alarmMessage = "  ALARM!! ";
 bool ArmSystem = false;
 bool ArmPerim = false;
 bool RFIDActive = true;
 bool incomingMessage = false;
+bool incomingAlarm = false;
 uint8_t alarmStatus = 0;
 
 
