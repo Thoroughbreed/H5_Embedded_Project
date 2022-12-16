@@ -57,8 +57,6 @@ void initServo()
 {
     pinMode(DOORSERVO, OUTPUT);
     doorServo.attach(DOORSERVO);
-    doorServo.write(90);
-    delay(123);
     doorServo.write(0);
 }
 
@@ -66,7 +64,7 @@ void initMQTT()
 {
     logMessage = "";
     critMessage = "";
-    mqttClient.setWill("SYSTEM_LOG", "Home controller lost connection!", false, 1);
+    mqttClient.setWill(PUB_SYSTEM_SYSTEM, "Home controller lost connection!", false, 1);
 
     if (!setupMQTT(CLIENTID, onMessageReceivedHome))
     {
@@ -82,12 +80,13 @@ void initMQTT()
             delay(999);
         }
     }
-    mqttClient.publish(PUB_SYSTEM_LOG, "Home controller is connected ...", false, 0);
+    logInfo("home", "Home controller is connected ...");
 
     mqttClient.subscribe(ALARM_TOP);
     mqttClient.subscribe(SUB_SYSTEM_LOG);
     mqttClient.subscribe(ALARM_STAT);
     mqttClient.subscribe(SUB_SYSTEM_CRIT);
+    mqttClient.subscribe(SUB_SYSTEM_SYSTEM);
 }
 
 void setupHome()
@@ -102,6 +101,7 @@ void setupHome()
     timeClient.begin();
     SPI.begin();
     mfrc522.PCD_Init();
+    pinMode(RST_PIN, OUTPUT);
     initWireless();
     getTime(0);
     timeClient.setTimeOffset(3600);
@@ -133,7 +133,7 @@ void updateOLED(int interval, bool message)
             while ((millis() - delayOLED) < 5000)
             {
                 display.clearDisplay();
-                printOLED(0, 0, messageToDisplay, 2);
+                printOLED(0, 0, messageToDisplay, 1);
                 printOLED(0, 55, timeClient.getFormattedTime());
                 display.display();
                 keyIn();
@@ -146,6 +146,10 @@ void updateOLED(int interval, bool message)
             if (alarmStatus == 0) printOLED(0, 15, "Disarmed", 2);
             if (alarmStatus == 1) printOLED(0, 15, "Perim. arm", 2);
             if (alarmStatus == 2) printOLED(0, 15, "Full arm", 2);
+            if (incomingAlarm)
+            {
+                printOLED(0, 30, alarmMessage, 2);
+            }
             printOLED(0, 50, timeClient.getFormattedTime(), 2);
             display.display();
         }
@@ -160,31 +164,36 @@ void updateOLED(int interval, bool message)
 
 void onMessageReceivedHome(String& topic, String& payload)
 {
-    Serial.println(topic);
-    Serial.println(payload);
-    Serial.println("Bofa");
     if (topic == ALARM_TOP)
     {
-        // TODO Do something!
         // Alarm halløj
         if (payload == "1")
         {
-            messageToDisplay = "  ALARM!! ";
-            incomingMessage = true;
-            flashWhite(75);
+            incomingAlarm = true;
+            ledRed();
+        }
+        if (payload == "0")
+        {
+            incomingAlarm = false;
+            ledGreen();
         }
     }
-    if (topic == SUB_SYSTEM_LOG)
+    if (topic.startsWith("home/log/info"))
     {
         // Vis log
         logMessage = payload;
         flashWhite(25);
     }
-    if (topic == SUB_SYSTEM_CRIT)
+    if (topic.startsWith("home/log/critical"))
     {
         // Vis critical log
         critMessage = payload;
         flashWhite(50);
+    }
+    if (topic.startsWith("home/log/system"))
+    {
+        critMessage = payload;
+        flashWhite(100);
     }
     if (topic == ALARM_STAT)
     {
@@ -208,7 +217,7 @@ void onMessageReceivedHome(String& topic, String& payload)
         }
         if (payload == "2") // Full
         {
-            messageToDisplay = "Fully     Armed";
+            messageToDisplay = "Fully Armed";
             alarmStatus = 2;
             incomingMessage = true;
             ArmPerim = false;
@@ -252,56 +261,56 @@ void pingDoors(int interval)
     }
 }
 
-void readChip()
-{
-    if (RFIDActive)
-//    if (false)
-    {
-        if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial())
-        {
-            delay(50);
-            return;
-        }
-        String newUid = "";
-        for (byte i = 0; i < mfrc522.uid.size; i++)
-        {
-            newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
-            newUid += mfrc522.uid.uidByte[i], HEX;
-        }
-        if (newUid != uid)
-        {
-            String payload = "RFID UID: ";
-            payload += newUid;
-            mqttClient.publish("home/log/debug", payload);
-            uid = newUid;
-            if (newUid == SECRET_RFID)
-            {
-                actionAlarm(0); // 0 Disables alarm
-                messageToDisplay = "Welcome home :)";
-                incomingMessage = true;
-                uid = "";
-                RFIDActive = false;
-            }
-            else
-            {
-                messageToDisplay = "ACCESS DENIED";
-                incomingMessage = true;
-                mqttClient.publish(PUB_SYSTEM_LOG, "Wrong chip at front door");
-            }
-        }
-    }
-}
-
 void connectivityCheck()
 {
-    if (wifiClient.connected()) return;
-    initWireless();
-    initMQTT();
+    if (!wifiClient.connected()) initWireless();
+    if (!mqttClient.connected()) initMQTT();
 }
 
 #pragma endregion
 
 #pragma region Keypad and entry
+
+void readChip()
+{
+    if (RFIDActive) {
+//        The reset pin doesn't work as desired... weirdly enough
+//        digitalWrite(RST_PIN, 1);
+//        ledRed();
+//    }
+//    if (!RFIDActive)
+//    {
+//        digitalWrite(RST_PIN, 0);
+//        ledBlue();
+//    }
+
+        if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+            delay(50);
+            return;
+        }
+        String newUid = "";
+        for (byte i = 0; i < mfrc522.uid.size; i++) {
+            newUid += mfrc522.uid.uidByte[i] < 0x10 ? "0" : "";
+            newUid += mfrc522.uid.uidByte[i], HEX;
+        }
+        if (newUid != uid) {
+            String payload = "RFID UID: ";
+            payload += newUid;
+            uid = newUid;
+            if (newUid == SECRET_RFID) {
+                actionAlarm(0); // 0 Disables alarm
+                messageToDisplay = "Welcome home :)";
+                incomingMessage = true;
+                uid = "";
+                RFIDActive = false;
+            } else {
+                messageToDisplay = "ACCESS DENIED";
+                incomingMessage = true;
+                logInfo("home", "Wrong chip at front door");
+            }
+        }
+    }
+}
 
 void checkPassword(char key)
 {
@@ -332,7 +341,7 @@ void keyIn()
                 break;
             case 'B':
                 incomingMessage = true;
-                messageToDisplay = "Press * to partially armsystem";
+                messageToDisplay = "Press * to partially arm system";
                 ArmSystem = false;
                 ArmPerim = true;
                 RFIDActive = true;
@@ -340,18 +349,16 @@ void keyIn()
             case 'C':
                 messageToDisplay = logMessage;
                 incomingMessage = true;
-                // TODO NEEDS TEST
                 break;
             case 'D':
                 messageToDisplay = critMessage;
                 incomingMessage = true;
-                // TODO NEEDS TEST
                 break;
             case '#':
                 pwdCount = 0;
                 if (comparePassword())
                 {
-                    messageToDisplay = "Welcome   home :)";
+                    messageToDisplay = "Welcome home :)";
                     actionAlarm(0);
                     incomingMessage = true;
                     RFIDActive = false;
@@ -386,13 +393,13 @@ bool comparePassword()
     if (pwdTest[0] == pwd[0] && pwdTest[1] == pwd[1] && pwdTest[2] == pwd[2] && pwdTest[3] == pwd[3])
     {
         pwdTest[0] = 0;
-        mqttClient.publish(PUB_SYSTEM_LOG, "Password OK");
+        logInfo("home", "Password OK");
         mqttClient.publish(ALARM_STAT, "0");
-        mqttClient.publish(PUB_SYSTEM_LOG, "Alarm disabled");
+        logInfo("home", "Alarm disabled");
         RFIDActive = false;
         return true;
     }
-    mqttClient.publish(PUB_SYSTEM_LOG "Wrong password at entry!");
+    logCritical("home", "Wrong password at entry!");
     return false;
 }
 

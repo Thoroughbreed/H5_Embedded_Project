@@ -10,7 +10,7 @@
 #define ROWS 4												// Number of rows in keypad
 #define COLS 4												// Number of columns in keypad
 
-//TODO CHECK PINS!
+
 byte rowPins[ROWS] = {3, 2, 1, 0};	// Pin numbering for rows in keypad
 byte colPins[COLS] = {21, 20, 19, 18};	// Pin numbering for columns in keypad
 
