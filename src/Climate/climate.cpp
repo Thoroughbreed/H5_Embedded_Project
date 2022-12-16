@@ -10,10 +10,10 @@ DHT dhtBedroom(DHTPIN4Bedroom, DHTTYPE);
 char clientIdClimate[] = MQTT_Climate_CLIENT_ID;
 
 unsigned long lastMillisPub = 0;
-unsigned long MillisPubInterval = 20000;
+unsigned long MillisPubInterval = 600000;
 
 unsigned long lastMillisCheck = 0;
-unsigned long MillisCheckInterval = 5000;
+unsigned long MillisCheckInterval = 300000;
 
 
 int setKitchenTemp = 24;
@@ -71,8 +71,9 @@ void loopClimate()
     checkLivingroomHumid();
 
   }
-  if (!mqttClient.connected()) ledRed();
-  else ledGreen();
+
+
+  
 }
 
 
